@@ -1,0 +1,424 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		04AA2710B9C1155D1F1E3077 /* Pods_DDLyrical.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD9C244CE269E15F65597498 /* Pods_DDLyrical.framework */; };
+		6A0841E9226C78D900D5E75A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0841E8226C78D900D5E75A /* AppDelegate.swift */; };
+		6A0841F2226C78DC00D5E75A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A0841F1226C78DC00D5E75A /* Assets.xcassets */; };
+		6A0841F5226C78DC00D5E75A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A0841F3226C78DC00D5E75A /* LaunchScreen.storyboard */; };
+		6A0841FD226C882E00D5E75A /* DDPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0841FC226C882E00D5E75A /* DDPlayerViewController.swift */; };
+		6A0841FF226C92C400D5E75A /* DDLyricLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0841FE226C92C400D5E75A /* DDLyricLine.swift */; };
+		6A084201226C9E0000D5E75A /* DDLyricAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A084200226C9E0000D5E75A /* DDLyricAnnotation.swift */; };
+		6A084203226C9F4D00D5E75A /* DDLyricTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A084202226C9F4D00D5E75A /* DDLyricTableViewCell.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2E402B4A596A50A006649917 /* Pods-DDLyrical.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDLyrical.release.xcconfig"; path = "Target Support Files/Pods-DDLyrical/Pods-DDLyrical.release.xcconfig"; sourceTree = "<group>"; };
+		6A0841E5226C78D900D5E75A /* DDLyrical.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDLyrical.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A0841E8226C78D900D5E75A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6A0841F1226C78DC00D5E75A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6A0841F4226C78DC00D5E75A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6A0841F6226C78DC00D5E75A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6A0841FC226C882E00D5E75A /* DDPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDPlayerViewController.swift; sourceTree = "<group>"; };
+		6A0841FE226C92C400D5E75A /* DDLyricLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDLyricLine.swift; sourceTree = "<group>"; };
+		6A084200226C9E0000D5E75A /* DDLyricAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDLyricAnnotation.swift; sourceTree = "<group>"; };
+		6A084202226C9F4D00D5E75A /* DDLyricTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDLyricTableViewCell.swift; sourceTree = "<group>"; };
+		DD9C244CE269E15F65597498 /* Pods_DDLyrical.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DDLyrical.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EEEC78F0FD296AF6ED00C12E /* Pods-DDLyrical.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDLyrical.debug.xcconfig"; path = "Target Support Files/Pods-DDLyrical/Pods-DDLyrical.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6A0841E2226C78D900D5E75A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04AA2710B9C1155D1F1E3077 /* Pods_DDLyrical.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		58B65F7659BA0FAEC2DC8E8F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EEEC78F0FD296AF6ED00C12E /* Pods-DDLyrical.debug.xcconfig */,
+				2E402B4A596A50A006649917 /* Pods-DDLyrical.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		6A0841DC226C78D900D5E75A = {
+			isa = PBXGroup;
+			children = (
+				6A0841E7226C78D900D5E75A /* DDLyrical */,
+				6A0841E6226C78D900D5E75A /* Products */,
+				58B65F7659BA0FAEC2DC8E8F /* Pods */,
+				B835EF0CC56A6E94017B5FC0 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		6A0841E6226C78D900D5E75A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6A0841E5226C78D900D5E75A /* DDLyrical.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6A0841E7226C78D900D5E75A /* DDLyrical */ = {
+			isa = PBXGroup;
+			children = (
+				6A0841E8226C78D900D5E75A /* AppDelegate.swift */,
+				6A0841FC226C882E00D5E75A /* DDPlayerViewController.swift */,
+				6A0841FE226C92C400D5E75A /* DDLyricLine.swift */,
+				6A084202226C9F4D00D5E75A /* DDLyricTableViewCell.swift */,
+				6A084200226C9E0000D5E75A /* DDLyricAnnotation.swift */,
+				6A0841F6226C78DC00D5E75A /* Info.plist */,
+				6A084204226CAD4900D5E75A /* Supporting Files */,
+			);
+			path = DDLyrical;
+			sourceTree = "<group>";
+		};
+		6A084204226CAD4900D5E75A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6A0841F1226C78DC00D5E75A /* Assets.xcassets */,
+				6A0841F3226C78DC00D5E75A /* LaunchScreen.storyboard */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B835EF0CC56A6E94017B5FC0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DD9C244CE269E15F65597498 /* Pods_DDLyrical.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6A0841E4226C78D900D5E75A /* DDLyrical */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A0841F9226C78DC00D5E75A /* Build configuration list for PBXNativeTarget "DDLyrical" */;
+			buildPhases = (
+				927FDECBECD8D908E1377FC5 /* [CP] Check Pods Manifest.lock */,
+				6A0841E1226C78D900D5E75A /* Sources */,
+				6A0841E2226C78D900D5E75A /* Frameworks */,
+				6A0841E3226C78D900D5E75A /* Resources */,
+				5FFC64EA373CEE667AD7DE0C /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DDLyrical;
+			productName = DDLyrical;
+			productReference = 6A0841E5226C78D900D5E75A /* DDLyrical.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6A0841DD226C78D900D5E75A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1020;
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = "Gu Jun";
+				TargetAttributes = {
+					6A0841E4226C78D900D5E75A = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+				};
+			};
+			buildConfigurationList = 6A0841E0226C78D900D5E75A /* Build configuration list for PBXProject "DDLyrical" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6A0841DC226C78D900D5E75A;
+			productRefGroup = 6A0841E6226C78D900D5E75A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6A0841E4226C78D900D5E75A /* DDLyrical */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6A0841E3226C78D900D5E75A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A0841F5226C78DC00D5E75A /* LaunchScreen.storyboard in Resources */,
+				6A0841F2226C78DC00D5E75A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5FFC64EA373CEE667AD7DE0C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DDLyrical/Pods-DDLyrical-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDLyrical/Pods-DDLyrical-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		927FDECBECD8D908E1377FC5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DDLyrical-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6A0841E1226C78D900D5E75A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A084201226C9E0000D5E75A /* DDLyricAnnotation.swift in Sources */,
+				6A084203226C9F4D00D5E75A /* DDLyricTableViewCell.swift in Sources */,
+				6A0841E9226C78D900D5E75A /* AppDelegate.swift in Sources */,
+				6A0841FF226C92C400D5E75A /* DDLyricLine.swift in Sources */,
+				6A0841FD226C882E00D5E75A /* DDPlayerViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		6A0841F3226C78DC00D5E75A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6A0841F4226C78DC00D5E75A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6A0841F7226C78DC00D5E75A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		6A0841F8226C78DC00D5E75A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6A0841FA226C78DC00D5E75A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EEEC78F0FD296AF6ED00C12E /* Pods-DDLyrical.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7EWD2V278C;
+				INFOPLIST_FILE = DDLyrical/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dream.demo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6A0841FB226C78DC00D5E75A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2E402B4A596A50A006649917 /* Pods-DDLyrical.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7EWD2V278C;
+				INFOPLIST_FILE = DDLyrical/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dream.demo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6A0841E0226C78D900D5E75A /* Build configuration list for PBXProject "DDLyrical" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A0841F7226C78DC00D5E75A /* Debug */,
+				6A0841F8226C78DC00D5E75A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6A0841F9226C78DC00D5E75A /* Build configuration list for PBXNativeTarget "DDLyrical" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A0841FA226C78DC00D5E75A /* Debug */,
+				6A0841FB226C78DC00D5E75A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6A0841DD226C78D900D5E75A /* Project object */;
+}

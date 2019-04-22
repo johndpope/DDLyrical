@@ -1,0 +1,6 @@
+framework module Pods_DDLyrical {
+  umbrella header "Pods-DDLyrical-umbrella.h"
+
+  export *
+  module * { export * }
+}
