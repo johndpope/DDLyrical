@@ -13,8 +13,8 @@ class DDLyricTableViewCell: UITableViewCell {
     
     lazy var lyric = DDLyricLine()
     
-    var originalView = UIView()
-    var translationView = UIView()
+    var originalView = UILabel()
+    var translationView = UILabel()
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -23,7 +23,9 @@ class DDLyricTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        originalView.backgroundColor = .blue
+        originalView.textAlignment = .center
+        translationView.textAlignment = .center
+        
         contentView.addSubview(originalView)
         contentView.addSubview(translationView)
         
@@ -43,8 +45,8 @@ class DDLyricTableViewCell: UITableViewCell {
 
     func setSubviewContraints() {
         originalView.snp.makeConstraints { (make) in
-            make.width.height.equalTo(50)
-            make.center.equalTo(contentView)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
         }
     }
 }

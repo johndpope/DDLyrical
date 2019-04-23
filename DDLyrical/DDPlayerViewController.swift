@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -15,6 +16,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     let tableView = UITableView()
     
     var lines = Array<DDLyricLine>()
+    private var audioPlayer: AVAudioPlayer?
     
 
     override func viewDidLoad() {
@@ -23,7 +25,6 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         
-        tableView.backgroundColor = .red
         tableView.frame = UIScreen.main.bounds
         
         tableView.delegate = self
@@ -32,8 +33,9 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         mockdata()
         
         tableView.register(DDLyricTableViewCell.self, forCellReuseIdentifier: CellIdentifier)
+        
+        player()
     }
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return lines.count
@@ -42,10 +44,12 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! DDLyricTableViewCell
         let line = lines[indexPath.row]
-        let label = UILabel()
-        label.text = line.original
-        cell.originalView.addSubview(label)
+        cell.originalView.text = line.original
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 72
     }
 
     private func mockdata() {
@@ -55,5 +59,17 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         line.translation = "不知何处的钟声响起"
         array.append(line)
         self.lines = array
+    }
+    
+    private func player() {
+        let url = Bundle.main.url(forResource: "3098401105", withExtension: "mp3")
+    
+        do {
+        audioPlayer = try AVAudioPlayer(contentsOf: url!)
+        audioPlayer?.prepareToPlay()
+        audioPlayer?.play()
+        } catch {
+        audioPlayer = nil
+        }
     }
 }
