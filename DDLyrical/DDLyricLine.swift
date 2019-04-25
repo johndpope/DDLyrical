@@ -10,6 +10,7 @@ import UIKit
 
 class DDLyricLine: NSObject {
     
+    var time = 0.0
     var annotations = Array<DDLyricAnnotation>()
     var original = ""
     var translation = ""

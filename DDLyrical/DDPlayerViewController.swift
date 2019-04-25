@@ -20,7 +20,6 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     var lyric = DDLyric()
     private var audioPlayer: AVAudioPlayer?
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,6 +36,8 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.register(DDLyricTableViewCell.self, forCellReuseIdentifier: CellIdentifier)
         
         player()
+        
+        testParser()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -66,6 +67,30 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
             audioPlayer?.play()
         } catch {
             audioPlayer = nil
+        }
+    }
+    
+    private func testParser() {
+        do {
+            let url = Bundle.main.url(forResource: "クリスマスソング", withExtension: "lrc")
+            let lyricsString = try String.init(contentsOf: url!)
+            let parser = LyricsParser(lyrics: lyricsString)
+            
+            // Now you get everything about the lyrics
+            print(parser.header.title)
+            print(parser.header.author)
+            print(parser.header.album)
+            
+            for lyric in parser.lyrics {
+                let line = DDLyricLine()
+                line.time = lyric.time
+                line.original = lyric.text
+                self.lyric.lines.append(line)
+//                print(lyric.text)
+//                print(lyric.time)
+            }
+        } catch {
+            print("ERROR: parse lrc")
         }
     }
 }
