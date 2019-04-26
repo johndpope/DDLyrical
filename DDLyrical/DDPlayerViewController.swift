@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 import SpotlightLyrics
-
+import SnapKit
 
 class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -26,11 +26,10 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         
-        tableView.frame = UIScreen.main.bounds
+        buildUI()
         
         tableView.delegate = self
         tableView.dataSource = self
-        view.addSubview(tableView)
         mockdata()
         
         tableView.register(DDLyricTableViewCell.self, forCellReuseIdentifier: CellIdentifier)
@@ -38,6 +37,12 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         player()
         
         testParser()
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback)
+        } catch {
+            
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -53,6 +58,62 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 72
+    }
+    
+    private func buildUI() {
+        view.addSubview(tableView)
+        
+        let controlPanel = UIView()
+        controlPanel.backgroundColor = .gray
+        view.addSubview(controlPanel)
+        
+        let playButton = UIButton()
+        let pauseButton = UIButton()
+        playButton.setTitle("Play", for: .normal)
+        playButton.titleLabel?.textColor = .white
+        pauseButton.setTitle("Pause", for: .normal)
+        pauseButton.titleLabel?.textColor = .white
+        controlPanel.addSubview(playButton)
+        controlPanel.addSubview(pauseButton)
+        
+        tableView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.bottom.equalTo(controlPanel.snp.top)
+        }
+        
+        controlPanel.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview()
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalTo(UIScreen.main.bounds.size.height * 0.15)
+        }
+        
+        playButton.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.left.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.width.equalTo(UIScreen.main.bounds.size.width * 0.5)
+        }
+        
+        pauseButton.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.right.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.width.equalTo(UIScreen.main.bounds.size.width * 0.5)
+        }
+        playButton.addTarget(self, action: #selector(play), for: .touchUpInside)
+        pauseButton.addTarget(self, action: #selector(pause), for: .touchUpInside)
+        
+    }
+    
+    @objc private func play() {
+        audioPlayer?.play()
+    }
+    
+    @objc private func pause() {
+        audioPlayer?.pause()
     }
     
     private func mockdata() {
@@ -77,9 +138,9 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
             let parser = LyricsParser(lyrics: lyricsString)
             
             // Now you get everything about the lyrics
-            print(parser.header.title)
-            print(parser.header.author)
-            print(parser.header.album)
+//            print(parser.header.title)
+//            print(parser.header.author)
+//            print(parser.header.album)
             
             for lyric in parser.lyrics {
                 let line = DDLyricLine()
