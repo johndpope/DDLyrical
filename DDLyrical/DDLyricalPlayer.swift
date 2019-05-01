@@ -9,22 +9,33 @@
 import UIKit
 import AVFoundation
 
+protocol DDLyricalPlayerDelegate: UIViewController {
+     func focusOn(line: Int)
+}
+
 class DDLyricalPlayer: NSObject {
     
     static let shared = DDLyricalPlayer()
     
+    weak var delegate: DDLyricalPlayerDelegate?
+    
+    private static let TIMER_INTERVAL = 0.05
+    
     private var audioPlayer: AVAudioPlayer?
+    private var timer: Timer?
+    private var timings: Array<Double> = Array<Double>()
+    private var tempTimingIndex: Int = 0
     
     private override init() {
     }
     
-    func prepareToPlay() {
-        let url = Bundle.main.url(forResource: "3098401105", withExtension: "mp3")
-        
+    func loadSong(forResource filename: String, withExtension ext: String, andTimings timings: Array<Double>) {
+        let url = Bundle.main.url(forResource: filename, withExtension: ext)
+        self.timings = timings
+
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: url!)
             audioPlayer?.prepareToPlay()
-            audioPlayer?.play()
         } catch {
             audioPlayer = nil
         }
@@ -32,10 +43,25 @@ class DDLyricalPlayer: NSObject {
     
     func play() {
         audioPlayer?.play()
+        timer = Timer.scheduledTimer(timeInterval: DDLyricalPlayer.TIMER_INTERVAL, target: self, selector: #selector(timerFired), userInfo: nil, repeats: true)
     }
     
     func pause() {
         audioPlayer?.pause()
     }
 
+    @objc func timerFired() {
+        if let currentTime = audioPlayer?.currentTime {
+            if (currentTime > timings[tempTimingIndex + 1]) {
+                tempTimingIndex += 1
+                delegate?.focusOn(line: tempTimingIndex)
+            
+//            for (index, timing) in timings.enumerated() {
+//                if (currentTime > timing) {
+//                    delegate?.focusOn(line: index)
+//                    break
+//                }
+            }
+        }
+    }
 }

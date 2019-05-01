@@ -11,14 +11,14 @@ import AVFoundation
 import SpotlightLyrics
 import SnapKit
 
-class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DDLyricalPlayerDelegate {
     
-    let CellIdentifier = "LyricLineCellIdentifier"
+    private let CellIdentifier = "LyricLineCellIdentifier"
     
-    let tableView = UITableView()
+    private let tableView = UITableView()
     
-    var lyric = DDLyric()
-    private var audioPlayer: AVAudioPlayer?
+    private var lyric = DDLyric()
+    private var timings = Array<Double>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,13 +30,14 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         
         tableView.delegate = self
         tableView.dataSource = self
-        mockdata()
         
         tableView.register(DDLyricTableViewCell.self, forCellReuseIdentifier: CellIdentifier)
         
-        player()
+        DDLyricalPlayer.shared.delegate = self
         
         testParser()
+        DDLyricalPlayer.shared.loadSong(forResource: "3098401105", withExtension: "mp3", andTimings: timings)
+        
         
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback)
@@ -44,6 +45,11 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
             
         }
     }
+    
+    func focusOn(line: Int) {
+        tableView.scrollToRow(at: IndexPath(row: line, section: 0), at: .middle, animated: true)
+    }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return lyric.lines.count
@@ -76,6 +82,9 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         controlPanel.addSubview(playButton)
         controlPanel.addSubview(pauseButton)
         
+        playButton.addTarget(self, action: #selector(play), for: .touchUpInside)
+        pauseButton.addTarget(self, action: #selector(testScrollTo), for: .touchUpInside)
+        
         tableView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.left.equalToSuperview()
@@ -103,32 +112,19 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
             make.bottom.equalToSuperview()
             make.width.equalTo(UIScreen.main.bounds.size.width * 0.5)
         }
-        playButton.addTarget(self, action: #selector(play), for: .touchUpInside)
-        pauseButton.addTarget(self, action: #selector(pause), for: .touchUpInside)
         
     }
     
     @objc private func play() {
-        audioPlayer?.play()
+        DDLyricalPlayer.shared.play()
     }
     
     @objc private func pause() {
-        audioPlayer?.pause()
+        DDLyricalPlayer.shared.pause()
     }
     
-    private func mockdata() {
-    }
-    
-    private func player() {
-        let url = Bundle.main.url(forResource: "3098401105", withExtension: "mp3")
-        
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url!)
-            audioPlayer?.prepareToPlay()
-            audioPlayer?.play()
-        } catch {
-            audioPlayer = nil
-        }
+    @objc func testScrollTo() {
+        tableView.scrollToRow(at: IndexPath(row: 5, section: 0), at: .middle, animated: true)
     }
     
     private func testParser() {
@@ -149,9 +145,11 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.lyric.lines.append(line)
 //                print(lyric.text)
 //                print(lyric.time)
+                timings.append(lyric.time)
             }
         } catch {
             print("ERROR: parse lrc")
         }
     }
+    
 }

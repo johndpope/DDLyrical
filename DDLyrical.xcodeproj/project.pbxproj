@@ -84,10 +84,10 @@
 			children = (
 				6A0841E8226C78D900D5E75A /* AppDelegate.swift */,
 				6A0841FC226C882E00D5E75A /* DDPlayerViewController.swift */,
-				6A084209226F6D5F00D5E75A /* DDLyric.swift */,
 				6A084202226C9F4D00D5E75A /* DDLyricTableViewCell.swift */,
-				6A0841FE226C92C400D5E75A /* DDLyricLine.swift */,
 				6A084205226F5BDB00D5E75A /* DDLyricalPlayer.swift */,
+				6A084209226F6D5F00D5E75A /* DDLyric.swift */,
+				6A0841FE226C92C400D5E75A /* DDLyricLine.swift */,
 				6A084200226C9E0000D5E75A /* DDLyricAnnotation.swift */,
 				6A0841F6226C78DC00D5E75A /* Info.plist */,
 				6A084207226F630200D5E75A /* 3098401105.mp3 */,
