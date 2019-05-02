@@ -16,6 +16,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     private let CellIdentifier = "LyricLineCellIdentifier"
     
     private let tableView = UITableView()
+    private let tableHeader = UIView()
     
     private var lyric = DDLyric()
     private var timings = Array<Double>()
@@ -32,6 +33,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.dataSource = self
         
         tableView.register(DDLyricTableViewCell.self, forCellReuseIdentifier: CellIdentifier)
+//        tableHeader.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         
         DDLyricalPlayer.shared.delegate = self
         
@@ -44,7 +46,12 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         } catch {
             
         }
+        
+        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .middle, animated: true)
+        
+        DDWebServer.shared.initWebServer()
     }
+    
     
     func focusOn(line: Int) {
         tableView.scrollToRow(at: IndexPath(row: line, section: 0), at: .middle, animated: true)
@@ -60,6 +67,14 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         let line = lyric.lines[indexPath.row]
         cell.originalView.text = line.original
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return tableHeader
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UIScreen.main.bounds.size.height / 2
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -83,7 +98,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         controlPanel.addSubview(pauseButton)
         
         playButton.addTarget(self, action: #selector(play), for: .touchUpInside)
-        pauseButton.addTarget(self, action: #selector(testScrollTo), for: .touchUpInside)
+        pauseButton.addTarget(self, action: #selector(pause), for: .touchUpInside)
         
         tableView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
@@ -121,10 +136,6 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     
     @objc private func pause() {
         DDLyricalPlayer.shared.pause()
-    }
-    
-    @objc func testScrollTo() {
-        tableView.scrollToRow(at: IndexPath(row: 5, section: 0), at: .middle, animated: true)
     }
     
     private func testParser() {

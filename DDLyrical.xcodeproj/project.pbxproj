@@ -19,6 +19,7 @@
 		6A084208226F630200D5E75A /* 3098401105.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6A084207226F630200D5E75A /* 3098401105.mp3 */; };
 		6A08420A226F6D5F00D5E75A /* DDLyric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A084209226F6D5F00D5E75A /* DDLyric.swift */; };
 		6A08420E2270C1D700D5E75A /* クリスマスソング.lrc in Resources */ = {isa = PBXBuildFile; fileRef = 6A08420D2270C1D700D5E75A /* クリスマスソング.lrc */; };
+		6A084210227B464D00D5E75A /* DDWebServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A08420F227B464D00D5E75A /* DDWebServer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		6A084207226F630200D5E75A /* 3098401105.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 3098401105.mp3; sourceTree = "<group>"; };
 		6A084209226F6D5F00D5E75A /* DDLyric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDLyric.swift; sourceTree = "<group>"; };
 		6A08420D2270C1D700D5E75A /* クリスマスソング.lrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "クリスマスソング.lrc"; sourceTree = "<group>"; };
+		6A08420F227B464D00D5E75A /* DDWebServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDWebServer.swift; sourceTree = "<group>"; };
 		DD9C244CE269E15F65597498 /* Pods_DDLyrical.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DDLyrical.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEEC78F0FD296AF6ED00C12E /* Pods-DDLyrical.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDLyrical.debug.xcconfig"; path = "Target Support Files/Pods-DDLyrical/Pods-DDLyrical.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -84,6 +86,7 @@
 			children = (
 				6A0841E8226C78D900D5E75A /* AppDelegate.swift */,
 				6A0841FC226C882E00D5E75A /* DDPlayerViewController.swift */,
+				6A08420F227B464D00D5E75A /* DDWebServer.swift */,
 				6A084202226C9F4D00D5E75A /* DDLyricTableViewCell.swift */,
 				6A084205226F5BDB00D5E75A /* DDLyricalPlayer.swift */,
 				6A084209226F6D5F00D5E75A /* DDLyric.swift */,
@@ -240,6 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A084201226C9E0000D5E75A /* DDLyricAnnotation.swift in Sources */,
+				6A084210227B464D00D5E75A /* DDWebServer.swift in Sources */,
 				6A084203226C9F4D00D5E75A /* DDLyricTableViewCell.swift in Sources */,
 				6A0841E9226C78D900D5E75A /* AppDelegate.swift in Sources */,
 				6A08420A226F6D5F00D5E75A /* DDLyric.swift in Sources */,

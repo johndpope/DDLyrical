@@ -13,12 +13,12 @@ class DDLyric: NSObject {
     var lines = Array<DDLyricLine>()
     
     override init() {
-        var array = Array<DDLyricLine>()
-        let line = DDLyricLine()
-        line.original = "どこかで鐘が鳴って"
-        line.translation = "不知何处的钟声响起"
-        array.append(line)
-        self.lines = array
+//        var array = Array<DDLyricLine>()
+//        let line = DDLyricLine()
+//        line.original = "どこかで鐘が鳴って"
+//        line.translation = "不知何处的钟声响起"
+//        array.append(line)
+//        self.lines = array
     }
     
 }

@@ -51,6 +51,10 @@ class DDLyricalPlayer: NSObject {
     }
 
     @objc func timerFired() {
+        if (tempTimingIndex >= timings.count - 1) {
+            timer?.invalidate()
+            return
+        }
         if let currentTime = audioPlayer?.currentTime {
             if (currentTime > timings[tempTimingIndex + 1]) {
                 tempTimingIndex += 1
