@@ -49,7 +49,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         
         tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .middle, animated: true)
         
-        DDWebServer.shared.initWebServer()
+        DDWebServer.shared.initWebUploader()
     }
     
     

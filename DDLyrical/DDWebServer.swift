@@ -7,27 +7,28 @@
 //
 
 import Foundation
-import GCDWebServer
+import GCDWebServer.GCDWebUploader
 
 class DDWebServer: NSObject {
     
     static let shared = DDWebServer()
     
+    private var _webUploader: GCDWebUploader?
+    
     private override init() {
         //
     }
     
-    func initWebServer() {
-        
-        let webServer = GCDWebServer()
-        
-        webServer.addDefaultHandler(forMethod: "GET", request: GCDWebServerRequest.self, processBlock: {request in
-            return GCDWebServerDataResponse(html:"<html><body><p>Hello World</p></body></html>")
-            
-        })
-        
-        webServer.start(withPort: 8080, bonjourName: "GCD Web Server")
-        
-        print("Visit \(webServer.serverURL) in your web browser")
+    func initWebUploader() {
+        if _webUploader == nil {
+            let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+            _webUploader = GCDWebUploader(uploadDirectory: path)
+        }
+        _webUploader!.start()
+        print("Visit \(_webUploader!.serverURL) in your web browser");
+    }
+    
+    func stop() {
+        _webUploader?.stop()
     }
 }
