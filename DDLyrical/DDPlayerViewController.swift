@@ -18,7 +18,8 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     private let tableView = UITableView()
     private let tableHeader = UIView()
     
-    private var lyric = DDLyric()
+//    private var lyric = DDLyric()
+    private var lines = Array<DDLine>()
     private var timings = Array<Double>()
     
     override func viewDidLoad() {
@@ -37,7 +38,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         
         DDLyricalPlayer.shared.delegate = self
         
-        testParser()
+//        testParser()
         DDLyricalPlayer.shared.loadSong(forResource: "3098401105", withExtension: "mp3", andTimings: timings)
         
         
@@ -47,7 +48,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
             
         }
         
-        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .middle, animated: true)
+//        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .middle, animated: true)
         
         DDWebServer.shared.initWebUploader()
     }
@@ -59,12 +60,12 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return lyric.lines.count
+        return lines.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! DDLyricTableViewCell
-        let line = lyric.lines[indexPath.row]
+        let line = lines[indexPath.row]
         cell.originalView.text = line.original
         return cell
     }
@@ -150,10 +151,10 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
 //            print(parser.header.album)
             
             for lyric in parser.lyrics {
-                let line = DDLyricLine()
+                let line = DDLine()
                 line.time = lyric.time
                 line.original = lyric.text
-                self.lyric.lines.append(line)
+                self.lines.append(line)
 //                print(lyric.text)
 //                print(lyric.time)
                 timings.append(lyric.time)

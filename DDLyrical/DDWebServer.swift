@@ -25,10 +25,15 @@ class DDWebServer: NSObject {
             _webUploader = GCDWebUploader(uploadDirectory: path)
         }
         _webUploader!.start()
-        print("Visit \(_webUploader!.serverURL) in your web browser");
+        print("Visit \(String(describing: _webUploader!.serverURL)) in your web browser");
     }
     
     func stop() {
-        _webUploader?.stop()
+        if _webUploader == nil {
+            return
+        }
+        if _webUploader!.isRunning {
+            _webUploader!.stop()
+        }
     }
 }
