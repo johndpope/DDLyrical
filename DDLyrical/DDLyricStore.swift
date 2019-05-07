@@ -8,13 +8,16 @@
 
 import UIKit
 import CoreData
+import SpotlightLyrics
 
 class DDLyricStore: NSObject {
     
     static let shared = DDLyricStore()
     
     private override init() {
-        //
+        super.init()
+        
+//        testParser()
     }
     
     // MARK: - Core Data stack
@@ -63,17 +66,68 @@ class DDLyricStore: NSObject {
         }
     }
     
-//    func getLyric(by uuid: UUID) -> DDLyric? {
-//        let context = persistentContainer.viewContext
-//        let fetchRequest = NSFetchRequest<DDLyric>(entityName: "DDLyric")
-//    }
+    func getLyric(by uuid: UUID) -> DDLyric? {
+        let context = persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<DDLyric>(entityName: "DDLyric")
+        
+        do {
+            let fetchResult = try context.fetch(fetchRequest)
+            if fetchResult.count > 1 {
+                fatalError("duplicate pet uuid.")
+            }
+            return fetchResult.first
+        } catch {
+            fatalError("fetch error")
+        }
+    }
     
-    func saveLyric(at uuid: UUID, lines: Array<DDLyricLine>) -> Bool {
+    func saveLyric(at uuid: UUID, lines: Array<(time: Double, original: String)>) -> Bool {
+        let context = persistentContainer.viewContext
+        let lyric = NSEntityDescription.insertNewObject(forEntityName: "DDLyric", into: context) as! DDLyric
+        lyric.uuid = uuid
+        
+        var lineArray = Array<DDLine>()
+        for item in lines {
+            let line = NSEntityDescription.insertNewObject(forEntityName: "DDLine", into: context) as! DDLine
+            line.time = item.time
+            line.original = item.original
+//            line.translation = item.translation
+            
+            lineArray.append(line)
+        }
+        lyric.lines = NSOrderedSet(array: lineArray)
+        
+        saveContext()
+        
         return true
     }
     
-    //
-    func testSave() {
-        //
+    
+    
+    private func testParser() {
+        do {
+            let url = Bundle.main.url(forResource: "クリスマスソング", withExtension: "lrc")
+            let lyricsString = try String.init(contentsOf: url!)
+            let parser = LyricsParser(lyrics: lyricsString)
+            
+            // Now you get everything about the lyrics
+            //            print(parser.header.title)
+            //            print(parser.header.author)
+            //            print(parser.header.album)
+            
+            var lines = Array<(time: Double, original: String)>()
+            
+            
+            for lyric in parser.lyrics {
+                lines.append((lyric.time, lyric.text))
+                //                print(lyric.text)
+                //                print(lyric.time)
+//                timings.append(lyric.time)
+            }
+            
+            saveLyric(at: UUID(), lines: lines)
+        } catch {
+            print("ERROR: parse lrc")
+        }
     }
 }

@@ -8,7 +8,6 @@
 
 import UIKit
 import AVFoundation
-import SpotlightLyrics
 import SnapKit
 
 class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DDLyricalPlayerDelegate {
@@ -28,6 +27,8 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         
+        getLyric()
+        
         buildUI()
         
         tableView.delegate = self
@@ -38,7 +39,6 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         
         DDLyricalPlayer.shared.delegate = self
         
-//        testParser()
         DDLyricalPlayer.shared.loadSong(forResource: "3098401105", withExtension: "mp3", andTimings: timings)
         
         
@@ -139,29 +139,17 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         DDLyricalPlayer.shared.pause()
     }
     
-    private func testParser() {
-        do {
-            let url = Bundle.main.url(forResource: "クリスマスソング", withExtension: "lrc")
-            let lyricsString = try String.init(contentsOf: url!)
-            let parser = LyricsParser(lyrics: lyricsString)
-            
-            // Now you get everything about the lyrics
-//            print(parser.header.title)
-//            print(parser.header.author)
-//            print(parser.header.album)
-            
-            for lyric in parser.lyrics {
-                let line = DDLine()
-                line.time = lyric.time
-                line.original = lyric.text
-                self.lines.append(line)
-//                print(lyric.text)
-//                print(lyric.time)
-                timings.append(lyric.time)
-            }
-        } catch {
-            print("ERROR: parse lrc")
+    private func getLyric() {
+        let lyric = DDLyricStore.shared.getLyric(by: UUID())
+        
+        var lines = Array<DDLine>()
+        var timings = Array<Double>()
+        for item in lyric!.lines! {
+            let itemLine = item as! DDLine
+            lines.append(itemLine)
+            timings.append(itemLine.time)
         }
+        self.lines = lines
+        self.timings = timings
     }
-    
 }
