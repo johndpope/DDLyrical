@@ -48,5 +48,10 @@ class DDLyricTableViewCell: UITableViewCell {
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
         }
+        translationView.snp.makeConstraints { (make) in
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
+            make.top.equalTo(originalView.snp_bottom)
+        }
     }
 }

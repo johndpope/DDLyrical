@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import SnapKit
+import MediaPlayer
 
 class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DDLyricalPlayerDelegate {
     
@@ -50,9 +51,24 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         
 //        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .middle, animated: true)
         
-        DDWebServer.shared.initWebUploader()
+//        DDWebServer.shared.initWebUploader()
+        
+        setPlayingInfo()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.becomeFirstResponder()
+        UIApplication.shared.beginReceivingRemoteControlEvents()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.resignFirstResponder()
+        UIApplication.shared.endReceivingRemoteControlEvents()
+    }
+    
+    // MARK: DDLyricalPlayerDelegate
     
     func focusOn(line: Int) {
         tableView.scrollToRow(at: IndexPath(row: line, section: 0), at: .middle, animated: true)
@@ -67,6 +83,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! DDLyricTableViewCell
         let line = lines[indexPath.row]
         cell.originalView.text = line.original
+        cell.translationView.text = line.translation
         return cell
     }
     
@@ -151,5 +168,25 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         self.lines = lines
         self.timings = timings
+    }
+    
+    private func setPlayingInfo() {
+        var dic = [String:String]()
+        dic[MPMediaItemPropertyTitle] = "title"
+        dic[MPMediaItemPropertyArtist] = "artist"
+        
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = dic
+    }
+    
+    override func remoteControlReceived(with event: UIEvent?) {
+        if (event!.type == .remoteControl) {
+            switch (event!.subtype) {
+            case .remoteControlPlay: DDLyricalPlayer.shared.play();break
+            case .remoteControlStop: DDLyricalPlayer.shared.pause();break
+            case .remoteControlNextTrack: break
+            case .remoteControlPreviousTrack: break
+            default: break
+            }
+        }
     }
 }

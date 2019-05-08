@@ -81,7 +81,7 @@ class DDLyricStore: NSObject {
         }
     }
     
-    func saveLyric(at uuid: UUID, lines: Array<(time: Double, original: String)>) -> Bool {
+    func saveLyric(at uuid: UUID, lines: Array<(time: Double, original: String, translation: String)>) -> Bool {
         let context = persistentContainer.viewContext
         let lyric = NSEntityDescription.insertNewObject(forEntityName: "DDLyric", into: context) as! DDLyric
         lyric.uuid = uuid
@@ -91,7 +91,7 @@ class DDLyricStore: NSObject {
             let line = NSEntityDescription.insertNewObject(forEntityName: "DDLine", into: context) as! DDLine
             line.time = item.time
             line.original = item.original
-//            line.translation = item.translation
+            line.translation = item.translation
             
             lineArray.append(line)
         }
@@ -115,11 +115,27 @@ class DDLyricStore: NSObject {
             //            print(parser.header.author)
             //            print(parser.header.album)
             
-            var lines = Array<(time: Double, original: String)>()
+            var lines = Array<(time: Double, original: String, translation: String)>()
             
             
             for lyric in parser.lyrics {
-                lines.append((lyric.time, lyric.text))
+                let pair = lyric.text.split(separator: " ")
+                var original = ""
+                var translation = ""
+                if (pair.count == 2) {
+                    original = String(pair[0])
+                    translation = String(pair[1])
+                } else if (pair.count == 3) {
+                    original = String(pair[0]+pair[1])
+                    translation = String(pair[2])
+                } else if (pair.count == 4) {
+                    original = String(pair[0]+pair[1])
+                    translation = String(pair[2]+pair[3])
+                } else {
+                    print("Unexpected")
+                    print(lyric.text)
+                }
+                lines.append((lyric.time, original, translation))
                 //                print(lyric.text)
                 //                print(lyric.time)
 //                timings.append(lyric.time)
