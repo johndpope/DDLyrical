@@ -36,7 +36,6 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.dataSource = self
         
         tableView.register(DDLyricTableViewCell.self, forCellReuseIdentifier: CellIdentifier)
-//        tableHeader.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         
         DDLyricalPlayer.shared.delegate = self
         
@@ -48,8 +47,6 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         } catch {
             
         }
-        
-//        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .middle, animated: true)
         
 //        DDWebServer.shared.initWebUploader()
         
@@ -74,6 +71,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.scrollToRow(at: IndexPath(row: line, section: 0), at: .middle, animated: true)
     }
     
+    // MARK: UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return lines.count
@@ -87,6 +85,8 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         return cell
     }
     
+    // MARK: UITableViewDelegate
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return tableHeader
     }
@@ -98,6 +98,18 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 72
     }
+    
+    // MARK: button events
+    
+    @objc private func play() {
+        DDLyricalPlayer.shared.play()
+    }
+    
+    @objc private func pause() {
+        DDLyricalPlayer.shared.pause()
+    }
+    
+    // MARK: private func
     
     private func buildUI() {
         view.addSubview(tableView)
@@ -148,14 +160,6 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         
     }
     
-    @objc private func play() {
-        DDLyricalPlayer.shared.play()
-    }
-    
-    @objc private func pause() {
-        DDLyricalPlayer.shared.pause()
-    }
-    
     private func getLyric() {
         let lyric = DDLyricStore.shared.getLyric(by: UUID())
         
@@ -171,11 +175,15 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     private func setPlayingInfo() {
-        var dic = [String:String]()
-        dic[MPMediaItemPropertyTitle] = "title"
-        dic[MPMediaItemPropertyArtist] = "artist"
-        
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = dic
+        var nowPlayingInfo = [String:Any]()
+        nowPlayingInfo[MPMediaItemPropertyTitle] = "title"
+        nowPlayingInfo[MPMediaItemPropertyArtist] = "artist"
+        nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = 300
+        let image = UIImage(named: "artwork")!
+        nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: image)
+//        MPMediaItemArtwork(boundsSize: <#T##CGSize#>, requestHandler: <#T##(CGSize) -> UIImage#>)
+
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
     
     override func remoteControlReceived(with event: UIEvent?) {
