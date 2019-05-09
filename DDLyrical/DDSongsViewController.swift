@@ -17,13 +17,19 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
     private let CellIdentifier = "LyricalSongCellIdentifier"
     
     private let tableView = UITableView()
-    private var songs = Array<DDLyricalSong>()
+    private var songs = Array<String>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .white
+        
+        buildUI()
+        
         tableView.dataSource = self
         tableView.delegate = self
+        
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: CellIdentifier)
         
         loadSongs()
     }
@@ -34,11 +40,33 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath)
-        cell.textLabel?.text = songs[indexPath.row].name
+        cell.textLabel?.text = songs[indexPath.row]
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.navigationController?.pushViewController(DDPlayerViewController(), animated: true)
+    }
+    
+    private func buildUI() {
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+    }
+    
     private func loadSongs() {
-        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+        let manager = FileManager.default
+        let documentDirectory = manager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let contentsOfPath = try! manager.contentsOfDirectory(atPath: documentDirectory.path)
+        for file in contentsOfPath {
+            print(file)
+            if (file.hasSuffix("mp3")) {
+                songs.append(file)
+            }
+        }
     }
 }
