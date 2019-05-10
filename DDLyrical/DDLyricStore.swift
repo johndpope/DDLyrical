@@ -141,7 +141,7 @@ class DDLyricStore: NSObject {
 //                timings.append(lyric.time)
             }
             
-            saveLyric(at: UUID(), lines: lines)
+            let _ = saveLyric(at: UUID(), lines: lines)
         } catch {
             print("ERROR: parse lrc")
         }

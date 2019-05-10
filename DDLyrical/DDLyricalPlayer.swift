@@ -49,6 +49,13 @@ class DDLyricalPlayer: NSObject {
     func pause() {
         audioPlayer?.pause()
     }
+    
+    func isPlaying() -> Bool {
+        if audioPlayer != nil && audioPlayer!.isPlaying == true {
+            return true
+        }
+        return false
+    }
 
     @objc func timerFired() {
         if (tempTimingIndex >= timings.count - 1) {

@@ -17,6 +17,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     
     private let tableView = UITableView()
     private let tableHeader = UIView()
+    private let playOrPauseButton = UIButton()
     
 //    private var lyric = DDLyric()
     private var lines = Array<DDLine>()
@@ -39,8 +40,9 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         
         DDLyricalPlayer.shared.delegate = self
         
-        DDLyricalPlayer.shared.loadSong(forResource: "3098401105", withExtension: "mp3", andTimings: timings)
-        
+        if !DDLyricalPlayer.shared.isPlaying() {
+            DDLyricalPlayer.shared.loadSong(forResource: "3098401105", withExtension: "mp3", andTimings: timings)
+        }
         
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback)
@@ -101,12 +103,17 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     
     // MARK: button events
     
-    @objc private func play() {
-        DDLyricalPlayer.shared.play()
+    @objc private func playOrPause() {
+        if DDLyricalPlayer.shared.isPlaying() {
+            DDLyricalPlayer.shared.pause()
+            playOrPauseButton.setTitle("Play", for: .normal)
+        } else {
+            DDLyricalPlayer.shared.play()
+            playOrPauseButton.setTitle("Pause", for: .normal)
+        }
     }
     
     @objc private func pause() {
-        DDLyricalPlayer.shared.pause()
     }
     
     // MARK: private func
@@ -118,17 +125,20 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         controlPanel.backgroundColor = .gray
         view.addSubview(controlPanel)
         
-        let playButton = UIButton()
-        let pauseButton = UIButton()
-        playButton.setTitle("Play", for: .normal)
-        playButton.titleLabel?.textColor = .white
-        pauseButton.setTitle("Pause", for: .normal)
-        pauseButton.titleLabel?.textColor = .white
-        controlPanel.addSubview(playButton)
-        controlPanel.addSubview(pauseButton)
+        let loopButton = UIButton()
+        let modeButton = UIButton()
+        loopButton.setTitle("Loop", for: .normal)
+        loopButton.titleLabel?.textColor = .white
+        playOrPauseButton.setTitle("Play", for: .normal)
+        playOrPauseButton.titleLabel?.textColor = .white
+        modeButton.setTitle("Single", for: .normal)
+        modeButton.titleLabel?.textColor = .white
+        controlPanel.addSubview(loopButton)
+        controlPanel.addSubview(playOrPauseButton)
+        controlPanel.addSubview(modeButton)
         
-        playButton.addTarget(self, action: #selector(play), for: .touchUpInside)
-        pauseButton.addTarget(self, action: #selector(pause), for: .touchUpInside)
+//        loopButton.addTarget(self, action: #selector(playOrPause), for: .touchUpInside)
+        playOrPauseButton.addTarget(self, action: #selector(playOrPause), for: .touchUpInside)
         
         tableView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
@@ -144,18 +154,30 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
             make.height.equalTo(UIScreen.main.bounds.size.height * 0.15)
         }
         
-        playButton.snp.makeConstraints { (make) in
+        loopButton.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.left.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.width.equalTo(UIScreen.main.bounds.size.width * 0.5)
+            make.right.equalTo(playOrPauseButton.snp_left)
+            
+            make.width.equalTo(playOrPauseButton.snp_width)
+            make.width.equalTo(modeButton.snp_width)
         }
         
-        pauseButton.snp.makeConstraints { (make) in
+        playOrPauseButton.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.right.equalTo(modeButton.snp_left)
+            make.bottom.equalToSuperview()
+            make.left.equalTo(loopButton.snp_right)
+//            make.width.equalTo(UIScreen.main.bounds.size.width * 0.5)
+        }
+        
+        modeButton.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.width.equalTo(UIScreen.main.bounds.size.width * 0.5)
+            make.left.equalTo(playOrPauseButton.snp_right)
+//            make.width.equalTo(UIScreen.main.bounds.size.width * 0.5)
         }
         
     }
@@ -196,5 +218,9 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
             default: break
             }
         }
+    }
+    
+    deinit {
+        print("deinit ", self)
     }
 }
