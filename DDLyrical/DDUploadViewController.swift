@@ -38,7 +38,7 @@ class DDUploadViewController: UIViewController {
         } else {
             let serverUrl = DDWebServer.shared.initWebUploader()
             textLabel.text = String(describing: "Visit " + serverUrl)
-            startOrStopButton.setTitle("Start Server", for: .normal)
+            startOrStopButton.setTitle("Stop Server", for: .normal)
         }
     }
     
