@@ -50,8 +50,6 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
             
         }
         
-//        DDWebServer.shared.initWebUploader()
-        
         setPlayingInfo()
     }
     
@@ -126,16 +124,16 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         view.addSubview(controlPanel)
         
         let loopButton = UIButton()
-        let modeButton = UIButton()
+        let playlistButton = UIButton()
         loopButton.setTitle("Loop", for: .normal)
-        loopButton.titleLabel?.textColor = .white
+        loopButton.tintColor = .white
         playOrPauseButton.setTitle("Play", for: .normal)
         playOrPauseButton.titleLabel?.textColor = .white
-        modeButton.setTitle("Single", for: .normal)
-        modeButton.titleLabel?.textColor = .white
+        playlistButton.setTitle("Playlist", for: .normal)
+        playlistButton.titleLabel?.textColor = .white
         controlPanel.addSubview(loopButton)
         controlPanel.addSubview(playOrPauseButton)
-        controlPanel.addSubview(modeButton)
+        controlPanel.addSubview(playlistButton)
         
 //        loopButton.addTarget(self, action: #selector(playOrPause), for: .touchUpInside)
         playOrPauseButton.addTarget(self, action: #selector(playOrPause), for: .touchUpInside)
@@ -161,18 +159,18 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
             make.right.equalTo(playOrPauseButton.snp_left)
             
             make.width.equalTo(playOrPauseButton.snp_width)
-            make.width.equalTo(modeButton.snp_width)
+            make.width.equalTo(playlistButton.snp_width)
         }
         
         playOrPauseButton.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
-            make.right.equalTo(modeButton.snp_left)
+            make.right.equalTo(playlistButton.snp_left)
             make.bottom.equalToSuperview()
             make.left.equalTo(loopButton.snp_right)
 //            make.width.equalTo(UIScreen.main.bounds.size.width * 0.5)
         }
         
-        modeButton.snp.makeConstraints { (make) in
+        playlistButton.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()

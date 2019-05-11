@@ -48,7 +48,16 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationController?.pushViewController(DDPlayerViewController(), animated: true)
     }
     
+    @objc func upload() {
+        self.present(DDUploadViewController(), animated: true) {
+            //
+        }
+    }
+    
     private func buildUI() {
+        let uploadButtonItem = UIBarButtonItem(title: "UPLOAD", style: .plain, target: self, action: #selector(upload))
+        self.navigationItem.rightBarButtonItem = uploadButtonItem
+        
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()

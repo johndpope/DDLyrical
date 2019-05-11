@@ -28,6 +28,7 @@
 		6AD974E622808B4000F85F5B /* DDAnnotation+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD974DC22808B3F00F85F5B /* DDAnnotation+CoreDataProperties.swift */; };
 		6AD974E722808B4000F85F5B /* DDAnnotation+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD974DF22808B3F00F85F5B /* DDAnnotation+CoreDataClass.swift */; };
 		6AD974E922832BC400F85F5B /* DDSongsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD974E822832BC400F85F5B /* DDSongsViewController.swift */; };
+		6AD974EB2285D85C00F85F5B /* DDUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD974EA2285D85C00F85F5B /* DDUploadViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		6AD974E022808B4000F85F5B /* DDLine+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DDLine+CoreDataClass.swift"; path = "/Users/druidream/Developer/Github/DDLyrical/DDLyrical/DDLine+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		6AD974E122808B4000F85F5B /* DDLine+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DDLine+CoreDataProperties.swift"; path = "/Users/druidream/Developer/Github/DDLyrical/DDLyrical/DDLine+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		6AD974E822832BC400F85F5B /* DDSongsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDSongsViewController.swift; sourceTree = "<group>"; };
+		6AD974EA2285D85C00F85F5B /* DDUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDUploadViewController.swift; sourceTree = "<group>"; };
 		DD9C244CE269E15F65597498 /* Pods_DDLyrical.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DDLyrical.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEEC78F0FD296AF6ED00C12E /* Pods-DDLyrical.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDLyrical.debug.xcconfig"; path = "Target Support Files/Pods-DDLyrical/Pods-DDLyrical.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,6 +105,7 @@
 				6A0841E8226C78D900D5E75A /* AppDelegate.swift */,
 				6A0841FC226C882E00D5E75A /* DDPlayerViewController.swift */,
 				6AD974E822832BC400F85F5B /* DDSongsViewController.swift */,
+				6AD974EA2285D85C00F85F5B /* DDUploadViewController.swift */,
 				6A084202226C9F4D00D5E75A /* DDLyricTableViewCell.swift */,
 				6A08420F227B464D00D5E75A /* DDWebServer.swift */,
 				6AD974CB22807E9500F85F5B /* DDLyricStore.swift */,
@@ -276,6 +279,7 @@
 				6AD974E922832BC400F85F5B /* DDSongsViewController.swift in Sources */,
 				6A084203226C9F4D00D5E75A /* DDLyricTableViewCell.swift in Sources */,
 				6A0841E9226C78D900D5E75A /* AppDelegate.swift in Sources */,
+				6AD974EB2285D85C00F85F5B /* DDUploadViewController.swift in Sources */,
 				6AD974E422808B4000F85F5B /* DDLine+CoreDataProperties.swift in Sources */,
 				6AD974E622808B4000F85F5B /* DDAnnotation+CoreDataProperties.swift in Sources */,
 				6AD974E522808B4000F85F5B /* DDLyric+CoreDataProperties.swift in Sources */,

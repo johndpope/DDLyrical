@@ -19,13 +19,14 @@ class DDWebServer: NSObject {
         //
     }
     
-    func initWebUploader() {
+    func initWebUploader() -> String {
         if _webUploader == nil {
             let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
             _webUploader = GCDWebUploader(uploadDirectory: path)
         }
         _webUploader!.start()
         print("Visit \(String(describing: _webUploader!.serverURL)) in your web browser");
+        return _webUploader!.serverURL!.absoluteString
     }
     
     func stop() {
@@ -35,5 +36,12 @@ class DDWebServer: NSObject {
         if _webUploader!.isRunning {
             _webUploader!.stop()
         }
+    }
+    
+    func isRunning() -> Bool {
+        if _webUploader == nil {
+            return false
+        }
+        return _webUploader!.isRunning
     }
 }
