@@ -30,11 +30,11 @@ class DDLyricalPlayer: NSObject {
     }
     
     func loadSong(forResource filename: String, withExtension ext: String, andTimings timings: Array<Double>) {
-        let url = Bundle.main.url(forResource: filename, withExtension: ext)
         self.timings = timings
 
+        let url = formURL(forResource: filename, withExtension: ext)
         do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url!)
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer?.prepareToPlay()
         } catch {
             audioPlayer = nil
@@ -74,5 +74,19 @@ class DDLyricalPlayer: NSObject {
 //                }
             }
         }
+    }
+    
+    private func formURL(forResource filename: String, withExtension ext: String) -> URL {
+        
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+        let fullpath = path + "/" + filename + "." + ext
+        //        print(fullpath)
+        let url = URL(fileURLWithPath: fullpath)
+
+        return url
+    }
+    
+    private func formURL(forBundleResource filename: String, withExtension ext: String) -> URL? {
+        return Bundle.main.url(forResource: filename, withExtension: ext)
     }
 }

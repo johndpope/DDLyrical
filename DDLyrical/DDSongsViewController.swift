@@ -31,6 +31,12 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: CellIdentifier)
         
+//        loadSongs()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         loadSongs()
     }
     
@@ -45,7 +51,9 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(DDPlayerViewController(), animated: true)
+        let playerVC = DDPlayerViewController()
+        playerVC.filename = self.songs[indexPath.row]
+        self.navigationController?.pushViewController(playerVC, animated: true)
     }
     
     @objc func upload() {
@@ -68,14 +76,23 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     private func loadSongs() {
+        loadSongs(false)
+    }
+    
+    private func loadSongs(_ incremental: Bool) {
+        var songs = Array<String>()
         let manager = FileManager.default
         let documentDirectory = manager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let contentsOfPath = try! manager.contentsOfDirectory(atPath: documentDirectory.path)
         for file in contentsOfPath {
-            print(file)
             if (file.hasSuffix("mp3")) {
                 songs.append(file)
             }
+        }
+        if incremental {
+            self.songs.append(contentsOf: songs)
+        } else {
+            self.songs = songs
         }
     }
 }

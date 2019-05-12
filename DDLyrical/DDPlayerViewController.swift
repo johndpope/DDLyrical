@@ -13,6 +13,9 @@ import MediaPlayer
 
 class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DDLyricalPlayerDelegate {
     
+    var filename: String?
+    
+    
     private let CellIdentifier = "LyricLineCellIdentifier"
     
     private let tableView = UITableView()
@@ -29,7 +32,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         
-        getLyric()
+        assert(filename != nil)
         
         buildUI()
         
@@ -40,8 +43,11 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         
         DDLyricalPlayer.shared.delegate = self
         
+        getLyric()
         if !DDLyricalPlayer.shared.isPlaying() {
-            DDLyricalPlayer.shared.loadSong(forResource: "3098401105", withExtension: "mp3", andTimings: timings)
+            let pair = filename!.split(separator: ".")
+            assert(pair.count == 2)
+            DDLyricalPlayer.shared.loadSong(forResource: String(pair[0]), withExtension: String(pair[1]), andTimings: timings)
         }
         
         do {
