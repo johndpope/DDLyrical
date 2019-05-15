@@ -15,6 +15,8 @@ class DDLyricTableViewCell: UITableViewCell {
     
     var originalView = UILabel()
     var translationView = UILabel()
+    var annotations = Array<DDLyricAnnotation>()
+    
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -45,6 +47,7 @@ class DDLyricTableViewCell: UITableViewCell {
 
     func setSubviewContraints() {
         originalView.snp.makeConstraints { (make) in
+//            make.topMargin.equalTo(50)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
         }

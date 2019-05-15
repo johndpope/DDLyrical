@@ -32,6 +32,7 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: CellIdentifier)
         
 //        loadSongs()
+//        testUTF8()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,5 +95,57 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
         } else {
             self.songs = songs
         }
+    }
+    
+    private func testUTF8() {
+//        let strToDecode = "🐶"
+//        let strToDecode = "い"
+        let strToDecode = "中"
+        let str = strToDecode.utf8DecodedString()
+        print(str)
+//        for codeUnit in strToDecode.utf8 {
+//            print(codeUnit)
+//            print(String().appendingFormat("%x", codeUnit))
+//        }
+
+        for scalar in strToDecode.unicodeScalars {
+            print(scalar.value)
+            print(String().appendingFormat("%x", scalar.value))
+        }
+        
+//        print("\u{3044}")
+        print(validateEmail(str: "🐶"))
+        print(validateEmail(str: "い"))
+        print(validateEmail(str: strToDecode))
+    }
+    
+    private func validateEmail(str: String) -> Bool {
+        // 1.编写邮箱规则(来自Internet)
+//        let pattern = "^[A-Za-zd]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,5}$"
+        let pattern = "^[\\u3040-\\u309F]+$"
+        
+        // 2.根据规则创建正则表达式对象
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options(rawValue: 0)) else {
+            return false
+        }
+        
+        // 3.根据对象匹配数据
+        // range: 检验传入字符串str的哪些部分,此处为全部
+        let result: Int = regex.numberOfMatches(in: str,
+                                                        options: NSRegularExpression.MatchingOptions(rawValue: 0),
+                                                        range: NSMakeRange(0, str.count))
+        return result > 0
+        
+    }
+}
+
+extension String {
+    
+    func utf8DecodedString()-> String {
+        let data = self.data(using: .unicode)
+        if let message = String(data: data!, encoding: .unicode){
+            return message
+        }
+        return ""
     }
 }

@@ -33,6 +33,8 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         view.backgroundColor = .white
         
         assert(filename != nil)
+        let pair = filename!.split(separator: ".")
+        assert(pair.count == 2)
         
         buildUI()
         
@@ -44,9 +46,11 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         DDLyricalPlayer.shared.delegate = self
         
         getLyric()
-        if !DDLyricalPlayer.shared.isPlaying() {
-            let pair = filename!.split(separator: ".")
-            assert(pair.count == 2)
+        if let nowPlaying = DDLyricalPlayer.shared.nowPlaying() {
+            if nowPlaying != String(pair[0]) {
+                DDLyricalPlayer.shared.loadSong(forResource: String(pair[0]), withExtension: String(pair[1]), andTimings: timings)
+            }
+        } else {
             DDLyricalPlayer.shared.loadSong(forResource: String(pair[0]), withExtension: String(pair[1]), andTimings: timings)
         }
         
@@ -57,6 +61,18 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         
         setPlayingInfo()
+        
+        id3v2()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if DDLyricalPlayer.shared.isPlaying() {
+            playOrPauseButton.setTitle("Pause", for: .normal)
+        } else {
+            playOrPauseButton.setTitle("Play", for: .normal)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -88,6 +104,13 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         let line = lines[indexPath.row]
         cell.originalView.text = line.original
         cell.translationView.text = line.translation
+        
+        let annotation = DDLyricAnnotation()
+        annotation.start = 1
+        annotation.end = 2
+        annotation.hiragana = "い"
+        self.annotations.append(annotation)
+        
         return cell
     }
     
@@ -226,5 +249,17 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     
     deinit {
         print("deinit ", self)
+    }
+    
+    
+    private func id3v2() {
+        let url = Bundle.main.url(forResource: "クリスマスソング", withExtension: "mp3")!
+        let asset: AVAsset = AVAsset(url: url)
+//        for item in asset.availableMetadataFormats {
+//            print(item)
+//        }
+        for metadataItem in asset.metadata {
+            print(metadataItem.commonKey!.rawValue)
+        }
     }
 }

@@ -17,6 +17,8 @@ class DDLyricalPlayer: NSObject {
     
     static let shared = DDLyricalPlayer()
     
+    private var playingResource = ""
+    
     weak var delegate: DDLyricalPlayerDelegate?
     
     private static let TIMER_INTERVAL = 0.05
@@ -36,6 +38,8 @@ class DDLyricalPlayer: NSObject {
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer?.prepareToPlay()
+            
+            playingResource = filename
         } catch {
             audioPlayer = nil
         }
@@ -48,6 +52,13 @@ class DDLyricalPlayer: NSObject {
     
     func pause() {
         audioPlayer?.pause()
+    }
+    
+    func nowPlaying() -> String? {
+        if audioPlayer != nil && audioPlayer!.isPlaying == true {
+            return playingResource
+        }
+        return nil
     }
     
     func isPlaying() -> Bool {
