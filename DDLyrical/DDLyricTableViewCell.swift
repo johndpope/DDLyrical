@@ -13,10 +13,11 @@ class DDLyricTableViewCell: UITableViewCell {
     
     lazy var lyric = DDLyricLine()
     
+    var annotationWrapper = UIView()
     var originalView = UILabel()
     var translationView = UILabel()
     var annotations = Array<DDLyricAnnotation>()
-    
+
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -28,10 +29,11 @@ class DDLyricTableViewCell: UITableViewCell {
         originalView.textAlignment = .center
         translationView.textAlignment = .center
         
+        contentView.addSubview(annotationWrapper)
         contentView.addSubview(originalView)
         contentView.addSubview(translationView)
         
-        setSubviewContraints()
+        buildSubviewContraints()
     }
 
     override func awakeFromNib() {
@@ -45,16 +47,37 @@ class DDLyricTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func setSubviewContraints() {
+    func buildSubviewContraints() {
+//        annotationWrapper.backgroundColor = .red
+        annotationWrapper.snp.makeConstraints { (make) in
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.height.equalTo(24)
+        }
         originalView.snp.makeConstraints { (make) in
+            make.top.equalTo(annotationWrapper.snp_bottom)
+            make.centerX.equalToSuperview()
 //            make.topMargin.equalTo(50)
-            make.leading.equalTo(contentView)
-            make.trailing.equalTo(contentView)
+//            make.leading.equalTo(contentView)
+//            make.trailing.equalTo(contentView)
         }
         translationView.snp.makeConstraints { (make) in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.top.equalTo(originalView.snp_bottom)
         }
+    }
+    
+    func buildAnnotations() {
+        for item in annotations {
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+            label.text = item.hiragana
+            let size = UIScreen.main.bounds.size
+            
+            let dic = Dictionary<String, Any>()
+            print((label.text! as NSString).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: dic as? [NSAttributedString.Key : Any], context: nil))
+            annotationWrapper.addSubview(label)
+        }
+        setNeedsDisplay()
     }
 }

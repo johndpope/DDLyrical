@@ -109,7 +109,10 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         annotation.start = 1
         annotation.end = 2
         annotation.hiragana = "い"
-        self.annotations.append(annotation)
+        let annotations = [annotation]
+        cell.annotations = annotations
+        
+        cell.buildAnnotations()
         
         return cell
     }
