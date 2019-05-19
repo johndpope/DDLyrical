@@ -11,5 +11,9 @@ import UIKit
 class DDLyricAnnotation: NSObject {
     var start = 0
     var end = 0
-    var hiragana = ""
+    var furigana = ""
+    
+    override var description: String {
+        return "[\(start), \(end)] \(furigana)"
+    }
 }

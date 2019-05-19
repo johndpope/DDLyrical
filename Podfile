@@ -5,5 +5,5 @@ use_frameworks!
 target 'DDLyrical' do
     pod 'SnapKit', '~> 4.0.0'
     pod 'SpotlightLyrics'
-    pod "GCDWebServer/WebUploader", "~> 3.0"
+    pod 'GCDWebServer/WebUploader', '~> 3.0'
 end

@@ -4,21 +4,29 @@
         <attribute name="begin" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="end" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="line" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DDLine" inverseName="annotations" inverseEntity="DDLine" syncable="YES"/>
     </entity>
     <entity name="DDLine" representedClassName="DDLine" syncable="YES">
         <attribute name="original" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="translation" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="annotations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DDAnnotation" syncable="YES"/>
+        <relationship name="annotations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DDAnnotation" inverseName="line" inverseEntity="DDAnnotation" syncable="YES"/>
+        <relationship name="lyric" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DDLyric" inverseName="lines" inverseEntity="DDLyric" syncable="YES"/>
+        <relationship name="segments" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DDSegment" inverseName="line" inverseEntity="DDSegment" syncable="YES"/>
     </entity>
     <entity name="DDLyric" representedClassName="DDLyric" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="lines" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DDLine" syncable="YES"/>
+        <relationship name="lines" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DDLine" inverseName="lyric" inverseEntity="DDLine" syncable="YES"/>
+    </entity>
+    <entity name="DDSegment" representedClassName="DDSegment" syncable="YES">
+        <attribute name="segment" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="line" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DDLine" inverseName="segments" inverseEntity="DDLine" syncable="YES"/>
     </entity>
     <elements>
+        <element name="DDAnnotation" positionX="-36" positionY="27" width="128" height="105"/>
+        <element name="DDLine" positionX="-54" positionY="0" width="128" height="135"/>
         <element name="DDLyric" positionX="-63" positionY="-18" width="128" height="90"/>
-        <element name="DDLine" positionX="-54" positionY="0" width="128" height="105"/>
-        <element name="DDAnnotation" positionX="-36" positionY="27" width="128" height="90"/>
+        <element name="DDSegment" positionX="-18" positionY="54" width="128" height="75"/>
     </elements>
 </model>

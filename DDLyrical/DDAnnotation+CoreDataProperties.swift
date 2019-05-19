@@ -2,7 +2,7 @@
 //  DDAnnotation+CoreDataProperties.swift
 //  
 //
-//  Created by Gu Jun on 2019/5/6.
+//  Created by Gu Jun on 2019/5/19.
 //
 //
 
@@ -16,8 +16,9 @@ extension DDAnnotation {
         return NSFetchRequest<DDAnnotation>(entityName: "DDAnnotation")
     }
 
-    @NSManaged public var text: String?
     @NSManaged public var begin: Int16
     @NSManaged public var end: Int16
+    @NSManaged public var text: String?
+    @NSManaged public var line: DDLine?
 
 }

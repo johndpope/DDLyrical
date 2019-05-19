@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        tabBarController.viewControllers = [navVC1, navVC2]
         
         let songsVC = DDSongsViewController()
+//        let testVC = DDTestViewController()
         let nav = UINavigationController(rootViewController: songsVC)
         self.window?.rootViewController = nav
         self.window?.makeKeyAndVisible()

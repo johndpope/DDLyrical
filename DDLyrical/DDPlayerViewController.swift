@@ -90,7 +90,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     // MARK: DDLyricalPlayerDelegate
     
     func focusOn(line: Int) {
-        tableView.scrollToRow(at: IndexPath(row: line, section: 0), at: .middle, animated: true)
+//        tableView.scrollToRow(at: IndexPath(row: line, section: 0), at: .middle, animated: true)
     }
     
     // MARK: UITableViewDataSource
@@ -102,14 +102,17 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! DDLyricTableViewCell
         let line = lines[indexPath.row]
-        cell.originalView.text = line.original
+        
+        let (segments, annotations) = self.parse(line: line.original!)
+        
+        cell.segments = segments
         cell.translationView.text = line.translation
         
-        let annotation = DDLyricAnnotation()
-        annotation.start = 1
-        annotation.end = 2
-        annotation.hiragana = "い"
-        let annotations = [annotation]
+//        let annotation = DDLyricAnnotation()
+//        annotation.start = 1
+//        annotation.end = 2
+//        annotation.furigana = "い"
+//        let annotations = [annotation]
         cell.annotations = annotations
         
         cell.buildAnnotations()
@@ -264,5 +267,138 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         for metadataItem in asset.metadata {
             print(metadataItem.commonKey!.rawValue)
         }
+    }
+    
+    private func test_parse() {
+        let (segments, annotations) = parse(line: "どこかで鐘(かね)が鳴って")
+        print(segments)
+        print(annotations)
+    }
+    
+    private func parse(line: String) -> (segments: [String], annotations: [DDLyricAnnotation]) {
+        var segments = Array<String>()
+        var annotations = Array<DDLyricAnnotation>()
+        
+        var segment = ""
+        var goingOnType: CharacterType = .kana
+        var startingKanjiIndex = 0
+        var endingKanjiIndex = 0
+        for (index, item) in line.unicodeScalars.enumerated() {
+            var charType: CharacterType = .kana
+            if (item.description == "(" || item.description == "（") {
+                charType = .startingBracket
+            } else if (item.description == ")" || item.description == "）") {
+                charType = .endingBracket
+            } else if (isKana(str: item.description)) {
+                charType = .kana
+            } else if (isKanji(str: item.description)) {
+                charType = .kanji
+            } else {
+                print(item)
+                charType = .other
+            }
+            
+            if (index == 0) {
+                segment = item.description
+                goingOnType = charType
+                
+                if (line.unicodeScalars.count == 1) {
+                    segments.append(segment)
+                    return (segments, annotations)
+                } else {
+                    continue
+                }
+            }
+            
+            if (charType == goingOnType) {
+                segment += item.description
+            } else if (charType == .kana && goingOnType != .kana) {
+                if (goingOnType == .kanji) {
+                    segments.append(segment)
+                }
+                
+                segment = item.description
+            } else if (charType == .kanji && goingOnType != .kanji) {
+                startingKanjiIndex = index
+                segments.append(segment)
+                
+                segment = item.description
+            } else if (charType == .startingBracket) {
+                segments.append(segment)
+                segment = ""
+                endingKanjiIndex = index - 1
+            } else if (charType == .endingBracket) {
+                let annotation = DDLyricAnnotation()
+                annotation.start = startingKanjiIndex
+                annotation.end = endingKanjiIndex
+                annotation.furigana = segment
+                annotations.append(annotation)
+                
+                startingKanjiIndex = 0
+                endingKanjiIndex = 0
+                segment = ""
+            } else if (charType == .other) {
+                print(index, item)
+            } else {
+                print(index, item)
+            }
+            goingOnType = charType
+            
+            if (index == line.unicodeScalars.count - 1) {
+                segments.append(segment)
+            }
+            print(item)
+        }
+        
+        return (segments, annotations)
+    }
+    
+    private func test_isKana() {
+        print(isKana(str: "🐶"))
+        print(isKana(str: "い"))
+        print(isKana(str: "カ"))
+        print(isKana(str: "中"))
+        print(isKana(str: "鐘"))
+    }
+    
+    private func test_isKanji() {
+        print(isKanji(str: "🐶"))
+        print(isKanji(str: "い"))
+        print(isKanji(str: "カ"))
+        print(isKanji(str: "中"))
+        print(isKanji(str: "鐘"))
+    }
+    
+    private func isKana(str: String) -> Bool {
+        //        let pattern = "^[\\u3040-\\u309F]+|$"
+        let pattern = "[ぁ-ん]+|[ァ-ヴー]+"
+        
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options(rawValue: 0)) else {
+            return false
+        }
+        
+        // range: 检验传入字符串str的哪些部分,此处为全部
+        let result: Int = regex.numberOfMatches(in: str,
+                                                options: NSRegularExpression.MatchingOptions(rawValue: 0),
+                                                range: NSMakeRange(0, str.count))
+        return result > 0
+        
+    }
+    
+    private func isKanji(str: String) -> Bool {
+        if str.unicodeScalars.count != 1 {
+            assertionFailure()
+        }
+        let pattern = "[一-龠]+"
+        
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options(rawValue: 0)) else {
+            return false
+        }
+        
+        // range: 检验传入字符串str的哪些部分,此处为全部
+        let result: Int = regex.numberOfMatches(in: str,
+                                                options: NSRegularExpression.MatchingOptions(rawValue: 0),
+                                                range: NSMakeRange(0, str.count))
+        return result > 0
     }
 }

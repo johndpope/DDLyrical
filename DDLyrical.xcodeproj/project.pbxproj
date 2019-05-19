@@ -29,6 +29,9 @@
 		6AD974E922832BC400F85F5B /* DDSongsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD974E822832BC400F85F5B /* DDSongsViewController.swift */; };
 		6AD974EB2285D85C00F85F5B /* DDUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD974EA2285D85C00F85F5B /* DDUploadViewController.swift */; };
 		6AD974EF228C62C200F85F5B /* クリスマスソング.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6AD974EE228C62C200F85F5B /* クリスマスソング.mp3 */; };
+		6AD974F122900D2400F85F5B /* DDTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD974F022900D2400F85F5B /* DDTestViewController.swift */; };
+		6AD974F622919D3100F85F5B /* DDSegment+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD974F422919D3100F85F5B /* DDSegment+CoreDataClass.swift */; };
+		6AD974F722919D3100F85F5B /* DDSegment+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD974F522919D3100F85F5B /* DDSegment+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +59,9 @@
 		6AD974E822832BC400F85F5B /* DDSongsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDSongsViewController.swift; sourceTree = "<group>"; };
 		6AD974EA2285D85C00F85F5B /* DDUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDUploadViewController.swift; sourceTree = "<group>"; };
 		6AD974EE228C62C200F85F5B /* クリスマスソング.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "クリスマスソング.mp3"; sourceTree = "<group>"; };
+		6AD974F022900D2400F85F5B /* DDTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDTestViewController.swift; sourceTree = "<group>"; };
+		6AD974F422919D3100F85F5B /* DDSegment+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DDSegment+CoreDataClass.swift"; path = "/Users/druidream/Developer/Github/DDLyrical/DDLyrical/DDSegment+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		6AD974F522919D3100F85F5B /* DDSegment+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DDSegment+CoreDataProperties.swift"; path = "/Users/druidream/Developer/Github/DDLyrical/DDLyrical/DDSegment+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		DD9C244CE269E15F65597498 /* Pods_DDLyrical.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DDLyrical.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEEC78F0FD296AF6ED00C12E /* Pods-DDLyrical.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDLyrical.debug.xcconfig"; path = "Target Support Files/Pods-DDLyrical/Pods-DDLyrical.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,6 +111,7 @@
 				6A0841E8226C78D900D5E75A /* AppDelegate.swift */,
 				6A0841FC226C882E00D5E75A /* DDPlayerViewController.swift */,
 				6AD974E822832BC400F85F5B /* DDSongsViewController.swift */,
+				6AD974F022900D2400F85F5B /* DDTestViewController.swift */,
 				6AD974EA2285D85C00F85F5B /* DDUploadViewController.swift */,
 				6A084202226C9F4D00D5E75A /* DDLyricTableViewCell.swift */,
 				6A08420F227B464D00D5E75A /* DDWebServer.swift */,
@@ -117,6 +124,8 @@
 				6AD974DD22808B3F00F85F5B /* DDLyric+CoreDataProperties.swift */,
 				6AD974E022808B4000F85F5B /* DDLine+CoreDataClass.swift */,
 				6AD974E122808B4000F85F5B /* DDLine+CoreDataProperties.swift */,
+				6AD974F422919D3100F85F5B /* DDSegment+CoreDataClass.swift */,
+				6AD974F522919D3100F85F5B /* DDSegment+CoreDataProperties.swift */,
 				6AD974DF22808B3F00F85F5B /* DDAnnotation+CoreDataClass.swift */,
 				6AD974DC22808B3F00F85F5B /* DDAnnotation+CoreDataProperties.swift */,
 				6A084204226CAD4900D5E75A /* Supporting Files */,
@@ -272,10 +281,13 @@
 				6AD974CC22807E9500F85F5B /* DDLyricStore.swift in Sources */,
 				6AD974E322808B4000F85F5B /* DDLine+CoreDataClass.swift in Sources */,
 				6A084201226C9E0000D5E75A /* DDLyricAnnotation.swift in Sources */,
+				6AD974F722919D3100F85F5B /* DDSegment+CoreDataProperties.swift in Sources */,
 				6AD974CF22807F4600F85F5B /* coredata.xcdatamodeld in Sources */,
 				6AD974E722808B4000F85F5B /* DDAnnotation+CoreDataClass.swift in Sources */,
+				6AD974F622919D3100F85F5B /* DDSegment+CoreDataClass.swift in Sources */,
 				6AD974E222808B4000F85F5B /* DDLyric+CoreDataClass.swift in Sources */,
 				6A084210227B464D00D5E75A /* DDWebServer.swift in Sources */,
+				6AD974F122900D2400F85F5B /* DDTestViewController.swift in Sources */,
 				6AD974E922832BC400F85F5B /* DDSongsViewController.swift in Sources */,
 				6A084203226C9F4D00D5E75A /* DDLyricTableViewCell.swift in Sources */,
 				6A0841E9226C78D900D5E75A /* AppDelegate.swift in Sources */,

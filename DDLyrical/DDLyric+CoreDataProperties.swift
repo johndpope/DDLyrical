@@ -2,7 +2,7 @@
 //  DDLyric+CoreDataProperties.swift
 //  
 //
-//  Created by Gu Jun on 2019/5/6.
+//  Created by Gu Jun on 2019/5/19.
 //
 //
 
