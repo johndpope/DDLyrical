@@ -50,7 +50,6 @@ class DDLyricTableViewCell: UITableViewCell {
     }
 
     func buildSubviewContraints() {
-//        annotationWrapper.backgroundColor = .red
         annotationWrapper.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
@@ -58,10 +57,11 @@ class DDLyricTableViewCell: UITableViewCell {
         }
         segmentsWrapper.snp.makeConstraints { (make) in
             make.top.equalTo(annotationWrapper.snp_bottom)
-            make.centerX.equalToSuperview()
+//            make.centerX.equalToSuperview()
 //            make.topMargin.equalTo(50)
-//            make.leading.equalTo(contentView)
-//            make.trailing.equalTo(contentView)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
+            make.height.equalTo(24)
         }
         translationView.snp.makeConstraints { (make) in
             make.leading.equalTo(contentView)
@@ -71,19 +71,53 @@ class DDLyricTableViewCell: UITableViewCell {
     }
     
     func buildAnnotations() {
+        for item in segmentsWrapper.subviews {
+            item.removeFromSuperview()
+        }
+        
+        var labelArray = Array<UILabel>()
         for item in segments {
             let label = UILabel()
             label.text = item
-            segmentsWrapper.addSubview(label)
+            label.frame = label.text!.boundingRect(with: CGSize.init(), options: .usesFontLeading, attributes: nil, context: nil)
+            labelArray.append(label)
+        }
+        let subStackView = UIStackView(arrangedSubviews: labelArray)
+        subStackView.axis = .horizontal
+        subStackView.distribution = .fill
+        subStackView.alignment = .fill
+        subStackView.spacing = 5
+        
+        
+        segmentsWrapper.addSubview(subStackView)
+
+        subStackView.snp.makeConstraints { (make) in
+            make.height.equalTo(24)
+            make.center.equalToSuperview()
+        }
+        
+        layoutIfNeeded()
+        
+        
+        for item in annotationWrapper.subviews {
+            item.removeFromSuperview()
         }
         
         for item in annotations {
-            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+            let label = UILabel()
+            label.lineBreakMode = .byClipping
+            label.clipsToBounds = false
+            label.layer.masksToBounds = false
             label.text = item.furigana
-            let size = UIScreen.main.bounds.size
-            
-            let dic = Dictionary<String, Any>()
-//            print((label.text! as NSString).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: dic as? [NSAttributedString.Key : Any], context: nil))
+            label.adjustsFontSizeToFitWidth = true
+            let size = label.text!.boundingRect(with: CGSize.init(), options: .usesFontLeading, attributes: nil, context: nil)
+            var frameX = subStackView.subviews[0..<item.segmentIndex].reduce(0.0) { (x, view) -> CGFloat in
+                x + view.frame.size.width
+            }
+            frameX += subStackView.frame.origin.x + CGFloat(item.segmentIndex) * subStackView.spacing
+            label.frame = CGRect(x: frameX, y: 0, width: size.width, height: 24)
+//            print(label.convert(label.bounds, to: nil))
+//            label.backgroundColor = .blue
             annotationWrapper.addSubview(label)
         }
         setNeedsDisplay()

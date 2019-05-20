@@ -101,6 +101,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! DDLyricTableViewCell
+        
         let line = lines[indexPath.row]
         
         let (segments, annotations) = self.parse(line: line.original!)
@@ -332,6 +333,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
                 annotation.start = startingKanjiIndex
                 annotation.end = endingKanjiIndex
                 annotation.furigana = segment
+                annotation.segmentIndex = segments.count - 1
                 annotations.append(annotation)
                 
                 startingKanjiIndex = 0
@@ -347,7 +349,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
             if (index == line.unicodeScalars.count - 1) {
                 segments.append(segment)
             }
-            print(item)
+//            print(item)
         }
         
         return (segments, annotations)

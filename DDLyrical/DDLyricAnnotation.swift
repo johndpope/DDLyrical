@@ -12,6 +12,7 @@ class DDLyricAnnotation: NSObject {
     var start = 0
     var end = 0
     var furigana = ""
+    var segmentIndex = 0
     
     override var description: String {
         return "[\(start), \(end)] \(furigana)"

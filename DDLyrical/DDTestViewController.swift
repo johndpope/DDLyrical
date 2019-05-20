@@ -23,7 +23,7 @@ class DDTestViewController: UIViewController {
         
         self.view.backgroundColor = .white
         
-        let text = "どこかで鐘(かね)が鳴って"
+//        let text = "どこかで鐘(かね)が鳴って"
         
 //        let (segments, annotations) = parse(line: text)
         
