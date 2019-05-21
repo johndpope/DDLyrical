@@ -11,6 +11,11 @@ import AVFoundation
 import SnapKit
 import MediaPlayer
 
+enum DDLoopMode {
+    case noLoop
+    case loop
+}
+
 class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DDLyricalPlayerDelegate {
     
     var filename: String?
@@ -21,10 +26,12 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     private let tableView = UITableView()
     private let tableHeader = UIView()
     private let playOrPauseButton = UIButton()
+    private let loopButton = UIButton()
     
 //    private var lyric = DDLyric()
     private var lines = Array<DDLine>()
     private var timings = Array<Double>()
+    private var loopMode: DDLoopMode = .loop
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +52,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.register(DDLyricTableViewCell.self, forCellReuseIdentifier: CellIdentifier)
         
         DDLyricalPlayer.shared.delegate = self
+        DDLyricalPlayer.shared.setLoopMode(loopMode: .loop)
         
         getLyric()
         if let nowPlaying = DDLyricalPlayer.shared.nowPlaying() {
@@ -110,11 +118,6 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         cell.segments = segments
         cell.translationView.text = line.translation
         
-//        let annotation = DDLyricAnnotation()
-//        annotation.start = 1
-//        annotation.end = 2
-//        annotation.furigana = "い"
-//        let annotations = [annotation]
         cell.annotations = annotations
         
         cell.buildAnnotations()
@@ -148,7 +151,17 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
-    @objc private func pause() {
+    @objc private func changeLoop() {
+        switch self.loopMode {
+        case .noLoop:
+            self.loopMode = .loop
+            self.loopButton.setTitle("Loop", for: .normal)
+            DDLyricalPlayer.shared.setLoopMode(loopMode: .loop)
+        case .loop:
+            self.loopMode = .noLoop
+            self.loopButton.setTitle("Once", for: .normal)
+            DDLyricalPlayer.shared.setLoopMode(loopMode: .noLoop)
+        }
     }
     
     // MARK: private func
@@ -160,7 +173,6 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         controlPanel.backgroundColor = .init(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
         view.addSubview(controlPanel)
         
-        let loopButton = UIButton()
         let playlistButton = UIButton()
         loopButton.setTitle("Loop", for: .normal)
         loopButton.tintColor = .init(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
@@ -172,7 +184,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         controlPanel.addSubview(playOrPauseButton)
         controlPanel.addSubview(playlistButton)
         
-//        loopButton.addTarget(self, action: #selector(playOrPause), for: .touchUpInside)
+        loopButton.addTarget(self, action: #selector(changeLoop), for: .touchUpInside)
         playOrPauseButton.addTarget(self, action: #selector(playOrPause), for: .touchUpInside)
         
         tableView.snp.makeConstraints { (make) in

@@ -67,6 +67,18 @@ class DDLyricalPlayer: NSObject {
         }
         return false
     }
+    
+    func setLoopMode(loopMode: DDLoopMode) {
+        if audioPlayer == nil {
+            return
+        }
+        switch loopMode {
+        case .noLoop:
+            audioPlayer!.numberOfLoops = 0
+        case .loop:
+            audioPlayer!.numberOfLoops = -1
+        }
+    }
 
     @objc func timerFired() {
         if (tempTimingIndex >= timings.count - 1) {
