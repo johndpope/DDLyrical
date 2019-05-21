@@ -86,7 +86,7 @@ class DDLyricTableViewCell: UITableViewCell {
         subStackView.axis = .horizontal
         subStackView.distribution = .fill
         subStackView.alignment = .fill
-        subStackView.spacing = 5
+        subStackView.spacing = 3
         
         
         segmentsWrapper.addSubview(subStackView)

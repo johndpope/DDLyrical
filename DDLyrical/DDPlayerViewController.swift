@@ -40,6 +40,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorStyle = .none
         
         tableView.register(DDLyricTableViewCell.self, forCellReuseIdentifier: CellIdentifier)
         
@@ -90,7 +91,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     // MARK: DDLyricalPlayerDelegate
     
     func focusOn(line: Int) {
-//        tableView.scrollToRow(at: IndexPath(row: line, section: 0), at: .middle, animated: true)
+        tableView.scrollToRow(at: IndexPath(row: line, section: 0), at: .middle, animated: true)
     }
     
     // MARK: UITableViewDataSource
@@ -156,13 +157,13 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         view.addSubview(tableView)
         
         let controlPanel = UIView()
-        controlPanel.backgroundColor = .gray
+        controlPanel.backgroundColor = .init(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
         view.addSubview(controlPanel)
         
         let loopButton = UIButton()
         let playlistButton = UIButton()
         loopButton.setTitle("Loop", for: .normal)
-        loopButton.tintColor = .white
+        loopButton.tintColor = .init(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
         playOrPauseButton.setTitle("Play", for: .normal)
         playOrPauseButton.titleLabel?.textColor = .white
         playlistButton.setTitle("Playlist", for: .normal)

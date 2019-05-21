@@ -22,14 +22,16 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        tableView.backgroundColor = .init(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        tableView.separatorStyle = .none
+        
         
         buildUI()
         
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: CellIdentifier)
+        tableView.register(DDSongItemTableViewCell.self, forCellReuseIdentifier: CellIdentifier)
         
 //        loadSongs()
     }
@@ -45,8 +47,8 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath)
-        cell.textLabel?.text = songs[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! DDSongItemTableViewCell
+        cell.titleLabel.text = songs[indexPath.row]
         return cell
     }
     
@@ -54,6 +56,10 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
         let playerVC = DDPlayerViewController()
         playerVC.filename = self.songs[indexPath.row]
         self.navigationController?.pushViewController(playerVC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
     
     @objc func upload() {
