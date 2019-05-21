@@ -23,6 +23,8 @@ class DDLyricalPlayer: NSObject {
     
     private static let TIMER_INTERVAL = 0.05
     
+    private let fadeDuration = 0.2
+    
     private var audioPlayer: AVAudioPlayer?
     private var timer: Timer?
     private var timings: Array<Double> = Array<Double>()
@@ -46,12 +48,16 @@ class DDLyricalPlayer: NSObject {
     }
     
     func play() {
-        audioPlayer?.play()
+        audioPlayer?.setVolume(1, fadeDuration: fadeDuration)
+        self.audioPlayer?.play()
         timer = Timer.scheduledTimer(timeInterval: DDLyricalPlayer.TIMER_INTERVAL, target: self, selector: #selector(timerFired), userInfo: nil, repeats: true)
     }
     
     func pause() {
-        audioPlayer?.pause()
+        audioPlayer?.setVolume(0, fadeDuration: fadeDuration)
+        _ = Timer.scheduledTimer(withTimeInterval: fadeDuration, repeats: false) {_ in
+            self.audioPlayer?.pause()
+        }
     }
     
     func nowPlaying() -> String? {
