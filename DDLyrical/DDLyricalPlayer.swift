@@ -50,6 +50,7 @@ class DDLyricalPlayer: NSObject, AVAudioPlayerDelegate {
             audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer?.prepareToPlay()
             audioPlayer?.delegate = self
+            audioPlayer?.enableRate = true
             
             playingResource = filename
         } catch {
@@ -98,6 +99,10 @@ class DDLyricalPlayer: NSObject, AVAudioPlayerDelegate {
         case .loop:
             audioPlayer!.numberOfLoops = -1
         }
+    }
+    
+    func setSpeed(rate: Float) {
+        audioPlayer?.rate = rate
     }
 
     @objc func timerFired() {

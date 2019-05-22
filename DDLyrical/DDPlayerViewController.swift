@@ -27,11 +27,13 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     private let tableHeader = UIView()
     private let playOrPauseButton = UIButton()
     private let loopButton = UIButton()
+    private let speedButton = UIButton()
     
 //    private var lyric = DDLyric()
     private var lines = Array<DDLine>()
     private var timings = Array<Double>()
     private var loopMode: DDLoopMode = .loop
+    private var speedRate = 1.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -168,6 +170,23 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
+    @objc private func changeSpeed() {
+        switch self.speedRate {
+        case 1.0:
+            self.speedRate = 0.5
+            self.speedButton.setTitle("0.5x", for: .normal)
+            DDLyricalPlayer.shared.setSpeed(rate: 0.5)
+        case 0.5:
+            self.speedRate = 1.0
+            self.speedButton.setTitle("1x", for: .normal)
+            DDLyricalPlayer.shared.setSpeed(rate: 1)
+        default:
+            self.speedRate = 1.0
+            self.speedButton.setTitle("1x", for: .normal)
+            DDLyricalPlayer.shared.setSpeed(rate: 1)
+        }
+    }
+    
     // MARK: private func
     
     private func buildUI() {
@@ -177,19 +196,19 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         controlPanel.backgroundColor = .init(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
         view.addSubview(controlPanel)
         
-        let playlistButton = UIButton()
         loopButton.setTitle("Loop", for: .normal)
         loopButton.tintColor = .init(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
         playOrPauseButton.setTitle("Play", for: .normal)
         playOrPauseButton.titleLabel?.textColor = .white
-        playlistButton.setTitle("Playlist", for: .normal)
-        playlistButton.titleLabel?.textColor = .white
+        speedButton.setTitle("1x", for: .normal)
+        speedButton.titleLabel?.textColor = .white
         controlPanel.addSubview(loopButton)
         controlPanel.addSubview(playOrPauseButton)
-        controlPanel.addSubview(playlistButton)
+        controlPanel.addSubview(speedButton)
         
         loopButton.addTarget(self, action: #selector(changeLoop), for: .touchUpInside)
         playOrPauseButton.addTarget(self, action: #selector(playOrPause), for: .touchUpInside)
+        speedButton.addTarget(self, action: #selector(changeSpeed), for: .touchUpInside)
         
         tableView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
@@ -212,18 +231,18 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
             make.right.equalTo(playOrPauseButton.snp_left)
             
             make.width.equalTo(playOrPauseButton.snp_width)
-            make.width.equalTo(playlistButton.snp_width)
+            make.width.equalTo(speedButton.snp_width)
         }
         
         playOrPauseButton.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
-            make.right.equalTo(playlistButton.snp_left)
+            make.right.equalTo(speedButton.snp_left)
             make.bottom.equalToSuperview()
             make.left.equalTo(loopButton.snp_right)
 //            make.width.equalTo(UIScreen.main.bounds.size.width * 0.5)
         }
         
-        playlistButton.snp.makeConstraints { (make) in
+        speedButton.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()
