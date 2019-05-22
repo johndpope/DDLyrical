@@ -102,6 +102,10 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.scrollToRow(at: IndexPath(row: line, section: 0), at: .middle, animated: true)
     }
     
+    func audioPlayerDidFinishPlaying() {
+        self.playOrPauseButton.setTitle("Play", for: .normal)
+    }
+    
     // MARK: UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

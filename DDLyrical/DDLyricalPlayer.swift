@@ -10,14 +10,13 @@ import UIKit
 import AVFoundation
 
 protocol DDLyricalPlayerDelegate: UIViewController {
-     func focusOn(line: Int)
+    func focusOn(line: Int)
+    func audioPlayerDidFinishPlaying()
 }
 
-class DDLyricalPlayer: NSObject {
+class DDLyricalPlayer: NSObject, AVAudioPlayerDelegate {
     
     static let shared = DDLyricalPlayer()
-    
-    private var playingResource = ""
     
     weak var delegate: DDLyricalPlayerDelegate?
     
@@ -29,8 +28,18 @@ class DDLyricalPlayer: NSObject {
     private var timer: Timer?
     private var timings: Array<Double> = Array<Double>()
     private var tempTimingIndex: Int = 0
+    private var playingResource = ""
     
     private override init() {
+        
+    }
+    
+    // MARK: AVAudioPlayerDelegate
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        if flag {
+            delegate?.audioPlayerDidFinishPlaying()
+        }
     }
     
     func loadSong(forResource filename: String, withExtension ext: String, andTimings timings: Array<Double>) {
@@ -40,6 +49,7 @@ class DDLyricalPlayer: NSObject {
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer?.prepareToPlay()
+            audioPlayer?.delegate = self
             
             playingResource = filename
         } catch {
@@ -49,13 +59,17 @@ class DDLyricalPlayer: NSObject {
     
     func play() {
         audioPlayer?.setVolume(1, fadeDuration: fadeDuration)
-        self.audioPlayer?.play()
+        audioPlayer?.play()
+        audioPlayer?.numberOfLoops = -1
+        if audioPlayer?.currentTime == 0 {
+            tempTimingIndex = 0
+        }
         timer = Timer.scheduledTimer(timeInterval: DDLyricalPlayer.TIMER_INTERVAL, target: self, selector: #selector(timerFired), userInfo: nil, repeats: true)
     }
     
     func pause() {
         audioPlayer?.setVolume(0, fadeDuration: fadeDuration)
-        _ = Timer.scheduledTimer(withTimeInterval: fadeDuration, repeats: false) {_ in
+        Timer.scheduledTimer(withTimeInterval: fadeDuration, repeats: false) { _ in
             self.audioPlayer?.pause()
         }
     }
