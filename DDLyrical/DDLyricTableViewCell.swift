@@ -13,9 +13,10 @@ class DDLyricTableViewCell: UITableViewCell {
     
 //    lazy var lyric = DDLyricLine()
     
-    var annotationWrapper = UIView()
-    var segmentsWrapper = UIView()
+    private var annotationWrapper = UIView()
+    private var segmentsWrapper = UIView()
     var translationView = UILabel()
+    private var themedLabels = Array<UILabel>()
     
     var segments = Array<String>()
     var annotations = Array<DDLyricAnnotation>()
@@ -29,6 +30,8 @@ class DDLyricTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         translationView.textAlignment = .center
+        
+        themedLabels.append(translationView)
         
         contentView.addSubview(annotationWrapper)
         contentView.addSubview(segmentsWrapper)
@@ -81,6 +84,8 @@ class DDLyricTableViewCell: UITableViewCell {
             label.text = item
             label.frame = label.text!.boundingRect(with: CGSize.init(), options: .usesFontLeading, attributes: nil, context: nil)
             labelArray.append(label)
+            
+            themedLabels.append(label)
         }
         let subStackView = UIStackView(arrangedSubviews: labelArray)
         subStackView.axis = .horizontal
@@ -116,9 +121,16 @@ class DDLyricTableViewCell: UITableViewCell {
             }
             frameX += subStackView.frame.origin.x + CGFloat(item.segmentIndex) * subStackView.spacing
             label.frame = CGRect(x: frameX, y: 0, width: size.width, height: 24)
-//            print(label.convert(label.bounds, to: nil))
-//            label.backgroundColor = .blue
+            themedLabels.append(label)
+
             annotationWrapper.addSubview(label)
+        }
+        setNeedsDisplay()
+    }
+    
+    func setThemeColor(_ color: UIColor) {
+        _ = themedLabels.map { (label) in
+            label.textColor = color
         }
         setNeedsDisplay()
     }

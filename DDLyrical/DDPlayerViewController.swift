@@ -101,6 +101,13 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     // MARK: DDLyricalPlayerDelegate
     
     func focusOn(line: Int) {
+        _ = tableView.visibleCells.map { (cell) in
+            if cell.tag != line {
+                (cell as! DDLyricTableViewCell).setThemeColor(.gray)
+            } else {
+                (cell as! DDLyricTableViewCell).setThemeColor(.black)
+            }
+        }
         tableView.scrollToRow(at: IndexPath(row: line, section: 0), at: .middle, animated: true)
     }
     
@@ -116,6 +123,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! DDLyricTableViewCell
+        cell.tag = indexPath.row
         
         let line = lines[indexPath.row]
         
