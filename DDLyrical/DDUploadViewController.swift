@@ -9,8 +9,9 @@
 import Foundation
 import UIKit
 import SnapKit
+import GCDWebServer.GCDWebUploader
 
-class DDUploadViewController: UIViewController {
+class DDUploadViewController: UIViewController, GCDWebUploaderDelegate {
     
     private let textLabel = UILabel()
     private let startOrStopButton = UIButton()
@@ -83,4 +84,27 @@ class DDUploadViewController: UIViewController {
             make.height.equalTo(100)
         }
     }
+    
+    // MARK: GCDWebUploaderDelegate
+    
+    func webUploader(_ uploader: GCDWebUploader, didDownloadFileAtPath path: String) {
+        print("didDownloadFileAtPath: \(path)")
+    }
+    
+    func webUploader(_ uploader: GCDWebUploader, didUploadFileAtPath path: String) {
+        print("didUploadFileAtPath: \(path)")
+    }
+    
+    func webUploader(_ uploader: GCDWebUploader, didMoveItemFromPath fromPath: String, toPath: String) {
+        print("didMoveItemFromPath: \(fromPath) toPath: \(toPath)")
+    }
+    
+    func webUploader(_ uploader: GCDWebUploader, didDeleteItemAtPath path: String) {
+        print("didDeleteItemAtPath: \(path)")
+    }
+    
+    func webUploader(_ uploader: GCDWebUploader, didCreateDirectoryAtPath path: String) {
+        print("didCreateDirectoryAtPath: \(path)")
+    }
+    
 }

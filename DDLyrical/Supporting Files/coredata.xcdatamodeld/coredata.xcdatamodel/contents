@@ -13,7 +13,7 @@
         <attribute name="translation" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="annotations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DDAnnotation" inverseName="line" inverseEntity="DDAnnotation" syncable="YES"/>
         <relationship name="lyric" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DDLyric" inverseName="lines" inverseEntity="DDLyric" syncable="YES"/>
-        <relationship name="segments" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DDSegment" inverseName="line" inverseEntity="DDSegment" syncable="YES"/>
+        <relationship name="segments" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DDSegment" inverseName="line" inverseEntity="DDSegment" syncable="YES"/>
     </entity>
     <entity name="DDLyric" representedClassName="DDLyric" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>

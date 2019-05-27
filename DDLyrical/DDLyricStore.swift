@@ -16,7 +16,6 @@ class DDLyricStore: NSObject {
     
     private override init() {
         super.init()
-        
 //        testParser()
     }
     
@@ -73,7 +72,7 @@ class DDLyricStore: NSObject {
         do {
             let fetchResult = try context.fetch(fetchRequest)
             if fetchResult.count > 1 {
-                fatalError("duplicate pet uuid.")
+                fatalError("duplicate lyric uuid.")
             }
             return fetchResult.first
         } catch {
@@ -88,12 +87,32 @@ class DDLyricStore: NSObject {
         
         var lineArray = Array<DDLine>()
         for item in lines {
+            var segmentArray = Array<DDSegment>()
+            var annotationArray = Array<DDAnnotation>()
+            
             let line = NSEntityDescription.insertNewObject(forEntityName: "DDLine", into: context) as! DDLine
             line.time = item.time
             line.original = item.original
             line.translation = item.translation
             
+            let (segments, annotations) = self.parse(line: item.original)
+            for segment in segments {
+                let segmentObj = NSEntityDescription.insertNewObject(forEntityName: "DDSegment", into: context) as! DDSegment
+                segmentObj.segment = segment
+                segmentArray.append(segmentObj)
+            }
+            for annotation in annotations {
+                let annotationObj = NSEntityDescription.insertNewObject(forEntityName: "DDAnnotation", into: context) as! DDAnnotation
+                annotationObj.begin = Int16(annotation.start)
+                annotationObj.end = Int16(annotation.end)
+                annotationObj.segmentIndex = Int16(annotation.segmentIndex)
+                annotationObj.text = annotation.furigana
+                annotationArray.append(annotationObj)
+            }
+            
             lineArray.append(line)
+            line.segments = NSOrderedSet(array: segmentArray)
+            line.annotations = NSSet(array: annotationArray)
         }
         lyric.lines = NSOrderedSet(array: lineArray)
         
@@ -145,5 +164,141 @@ class DDLyricStore: NSObject {
         } catch {
             print("ERROR: parse lrc")
         }
+    }
+    
+    
+    // MARK: Parse LRC
+    private func test_parse() {
+        let (segments, annotations) = parse(line: "どこかで鐘(かね)が鳴って")
+        print(segments)
+        print(annotations)
+    }
+    
+    private func parse(line: String) -> (segments: [String], annotations: [DDLyricAnnotation]) {
+        var segments = Array<String>()
+        var annotations = Array<DDLyricAnnotation>()
+        
+        var segment = ""
+        var goingOnType: CharacterType = .kana
+        var startingKanjiIndex = 0
+        var endingKanjiIndex = 0
+        for (index, item) in line.unicodeScalars.enumerated() {
+            var charType: CharacterType = .kana
+            if (item.description == "(" || item.description == "（") {
+                charType = .startingBracket
+            } else if (item.description == ")" || item.description == "）") {
+                charType = .endingBracket
+            } else if (isKana(str: item.description)) {
+                charType = .kana
+            } else if (isKanji(str: item.description)) {
+                charType = .kanji
+            } else {
+                print(item)
+                charType = .other
+            }
+            
+            if (index == 0) {
+                segment = item.description
+                goingOnType = charType
+                
+                if (line.unicodeScalars.count == 1) {
+                    segments.append(segment)
+                    return (segments, annotations)
+                } else {
+                    continue
+                }
+            }
+            
+            if (charType == goingOnType) {
+                segment += item.description
+            } else if (charType == .kana && goingOnType != .kana) {
+                if (goingOnType == .kanji) {
+                    segments.append(segment)
+                }
+                
+                segment = item.description
+            } else if (charType == .kanji && goingOnType != .kanji) {
+                startingKanjiIndex = index
+                segments.append(segment)
+                
+                segment = item.description
+            } else if (charType == .startingBracket) {
+                segments.append(segment)
+                segment = ""
+                endingKanjiIndex = index - 1
+            } else if (charType == .endingBracket) {
+                let annotation = DDLyricAnnotation()
+                annotation.start = startingKanjiIndex
+                annotation.end = endingKanjiIndex
+                annotation.furigana = segment
+                annotation.segmentIndex = segments.count - 1
+                annotations.append(annotation)
+                
+                startingKanjiIndex = 0
+                endingKanjiIndex = 0
+                segment = ""
+            } else if (charType == .other) {
+                print(index, item)
+            } else {
+                print(index, item)
+            }
+            goingOnType = charType
+            
+            if (index == line.unicodeScalars.count - 1) {
+                segments.append(segment)
+            }
+            //            print(item)
+        }
+        
+        return (segments, annotations)
+    }
+    
+    private func test_isKana() {
+        print(isKana(str: "🐶"))
+        print(isKana(str: "い"))
+        print(isKana(str: "カ"))
+        print(isKana(str: "中"))
+        print(isKana(str: "鐘"))
+    }
+    
+    private func test_isKanji() {
+        print(isKanji(str: "🐶"))
+        print(isKanji(str: "い"))
+        print(isKanji(str: "カ"))
+        print(isKanji(str: "中"))
+        print(isKanji(str: "鐘"))
+    }
+    
+    private func isKana(str: String) -> Bool {
+        //        let pattern = "^[\\u3040-\\u309F]+|$"
+        let pattern = "[ぁ-ん]+|[ァ-ヴー]+"
+        
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options(rawValue: 0)) else {
+            return false
+        }
+        
+        // range: 检验传入字符串str的哪些部分,此处为全部
+        let result: Int = regex.numberOfMatches(in: str,
+                                                options: NSRegularExpression.MatchingOptions(rawValue: 0),
+                                                range: NSMakeRange(0, str.count))
+        return result > 0
+        
+    }
+    
+    private func isKanji(str: String) -> Bool {
+        if str.unicodeScalars.count != 1 {
+            assertionFailure()
+        }
+        let pattern = "[一-龠]+"
+        
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options(rawValue: 0)) else {
+            return false
+        }
+        
+        // range: 检验传入字符串str的哪些部分,此处为全部
+        let result: Int = regex.numberOfMatches(in: str,
+                                                options: NSRegularExpression.MatchingOptions(rawValue: 0),
+                                                range: NSMakeRange(0, str.count))
+        return result > 0
     }
 }

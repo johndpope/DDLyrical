@@ -2,7 +2,7 @@
 //  DDSegment+CoreDataProperties.swift
 //  
 //
-//  Created by Gu Jun on 2019/5/19.
+//  Created by Gu Jun on 2019/5/27.
 //
 //
 

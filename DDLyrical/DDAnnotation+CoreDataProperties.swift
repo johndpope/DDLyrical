@@ -2,7 +2,7 @@
 //  DDAnnotation+CoreDataProperties.swift
 //  
 //
-//  Created by Gu Jun on 2019/5/20.
+//  Created by Gu Jun on 2019/5/27.
 //
 //
 

@@ -29,6 +29,7 @@ class DDLyricTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        self.selectionStyle = .none
         translationView.textAlignment = .center
         
         themedLabels.append(translationView)
@@ -132,7 +133,7 @@ class DDLyricTableViewCell: UITableViewCell {
         _ = themedLabels.map { (label) in
             label.textColor = color
         }
-        setNeedsDisplay()
+//        setNeedsDisplay()
     }
     
 }
