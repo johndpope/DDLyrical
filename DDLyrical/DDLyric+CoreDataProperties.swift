@@ -2,7 +2,7 @@
 //  DDLyric+CoreDataProperties.swift
 //  
 //
-//  Created by Gu Jun on 2019/5/27.
+//  Created by Gu Jun on 2019/5/28.
 //
 //
 
@@ -16,8 +16,10 @@ extension DDLyric {
         return NSFetchRequest<DDLyric>(entityName: "DDLyric")
     }
 
-    @NSManaged public var name: String?
+    @NSManaged public var filename: String?
     @NSManaged public var uuid: UUID?
+    @NSManaged public var songname: String?
+    @NSManaged public var artist: String?
     @NSManaged public var lines: NSOrderedSet?
 
 }

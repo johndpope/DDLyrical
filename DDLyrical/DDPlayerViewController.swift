@@ -19,6 +19,7 @@ enum DDLoopMode {
 class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DDLyricalPlayerDelegate {
     
     var filename: String?
+    var uuid: UUID?
     
     
     private let CellIdentifier = "LyricLineCellIdentifier"
@@ -276,7 +277,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     private func getLyric() {
-        lyric = DDLyricStore.shared.getLyric(by: UUID())
+        lyric = DDLyricStore.shared.getLyric(by: self.uuid!)
         
         var lines = Array<DDLine>()
         var timings = Array<Double>()
@@ -291,7 +292,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     
     private func setPlayingInfo() {
         var nowPlayingInfo = [String:Any]()
-        nowPlayingInfo[MPMediaItemPropertyTitle] = lyric?.name ?? "title"
+        nowPlayingInfo[MPMediaItemPropertyTitle] = lyric?.filename ?? "title"
         nowPlayingInfo[MPMediaItemPropertyArtist] = "artist"
         nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = 300
         let image = UIImage(named: "artwork")!

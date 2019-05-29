@@ -17,7 +17,7 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
     private let CellIdentifier = "LyricalSongCellIdentifier"
     
     private let tableView = UITableView()
-    private var songs = Array<String>()
+    private var songs = Array<DDLyric>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +34,7 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.register(DDSongItemTableViewCell.self, forCellReuseIdentifier: CellIdentifier)
         
 //        loadSongs()
+        load()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,13 +49,14 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! DDSongItemTableViewCell
-        cell.titleLabel.text = songs[indexPath.row]
+        cell.titleLabel.text = songs[indexPath.row].filename
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let playerVC = DDPlayerViewController()
-        playerVC.filename = self.songs[indexPath.row]
+        playerVC.filename = self.songs[indexPath.row].filename!
+        playerVC.uuid = self.songs[indexPath.row].uuid
         self.navigationController?.pushViewController(playerVC, animated: true)
     }
     
@@ -96,10 +98,14 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         }
         if incremental {
-            self.songs.append(contentsOf: songs)
+//            self.songs.append(contentsOf: songs)
         } else {
-            self.songs = songs
+//            self.songs = songs
         }
+    }
+    
+    private func load() {
+        self.songs = DDLyricStore.shared.getLyrics()
     }
     
 }

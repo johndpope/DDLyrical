@@ -16,7 +16,9 @@
         <relationship name="segments" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DDSegment" inverseName="line" inverseEntity="DDSegment" syncable="YES"/>
     </entity>
     <entity name="DDLyric" representedClassName="DDLyric" syncable="YES">
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="artist" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="filename" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="songname" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="lines" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DDLine" inverseName="lyric" inverseEntity="DDLine" syncable="YES"/>
     </entity>
@@ -27,7 +29,7 @@
     <elements>
         <element name="DDAnnotation" positionX="-36" positionY="27" width="128" height="120"/>
         <element name="DDLine" positionX="-54" positionY="0" width="128" height="135"/>
-        <element name="DDLyric" positionX="-63" positionY="-18" width="128" height="90"/>
+        <element name="DDLyric" positionX="-63" positionY="-18" width="128" height="120"/>
         <element name="DDSegment" positionX="-18" positionY="54" width="128" height="75"/>
     </elements>
 </model>

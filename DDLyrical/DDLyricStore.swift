@@ -51,7 +51,7 @@ class DDLyricStore: NSObject {
 
     // MARK: - Core Data Saving support
     
-    func saveContext () {
+    private func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
@@ -65,9 +65,24 @@ class DDLyricStore: NSObject {
         }
     }
     
+    func getLyrics() -> Array<DDLyric> {
+        let context = persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<DDLyric>(entityName: "DDLyric")
+        
+        do {
+            let fetchResult = try context.fetch(fetchRequest)
+            return fetchResult
+        } catch {
+            fatalError("fetch error: getLyrics")
+        }
+    }
+    
     func getLyric(by uuid: UUID) -> DDLyric? {
         let context = persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<DDLyric>(entityName: "DDLyric")
+        fetchRequest.fetchOffset = 0
+        fetchRequest.fetchLimit = 1
+        fetchRequest.predicate = NSPredicate(format: "uuid == %@", uuid as CVarArg)
         
         do {
             let fetchResult = try context.fetch(fetchRequest)
@@ -80,10 +95,11 @@ class DDLyricStore: NSObject {
         }
     }
     
-    func saveLyric(at uuid: UUID, lines: Array<(time: Double, original: String, translation: String)>) -> Bool {
+    func saveLyric(withFilename filename: String, lines: Array<(time: Double, original: String, translation: String)>) -> Bool {
         let context = persistentContainer.viewContext
         let lyric = NSEntityDescription.insertNewObject(forEntityName: "DDLyric", into: context) as! DDLyric
-        lyric.uuid = uuid
+        lyric.uuid = UUID()
+        lyric.filename = filename
         
         var lineArray = Array<DDLine>()
         for item in lines {
@@ -160,7 +176,7 @@ class DDLyricStore: NSObject {
 //                timings.append(lyric.time)
             }
             
-            let _ = saveLyric(at: UUID(), lines: lines)
+            let _ = saveLyric(withFilename: "3098401105.mp3", lines: lines)
         } catch {
             print("ERROR: parse lrc")
         }
