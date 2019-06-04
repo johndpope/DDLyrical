@@ -18,9 +18,7 @@ enum DDLoopMode {
 
 class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DDLyricalPlayerDelegate {
     
-    var filename: String?
     var uuid: UUID?
-    
     
     private let CellIdentifier = "LyricLineCellIdentifier"
     
@@ -30,7 +28,6 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     private let loopButton = UIButton()
     private let speedButton = UIButton()
     
-//    private var lyric = DDLyric()
     private var lines = Array<DDLine>()
     private var timings = Array<Double>()
     private var loopMode: DDLoopMode = .loop
@@ -43,9 +40,10 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         
-        assert(filename != nil)
-        let pair = filename!.split(separator: ".")
-        assert(pair.count == 2)
+        if uuid == nil { // segued from now playing
+            uuid = DDLyricalPlayer.shared.nowPlayingUUID()
+            assert(uuid != nil)
+        }
         
         buildUI()
         
@@ -58,13 +56,18 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         DDLyricalPlayer.shared.delegate = self
         DDLyricalPlayer.shared.setLoopMode(loopMode: .loop)
         
-        getLyric()
-        if let nowPlaying = DDLyricalPlayer.shared.nowPlaying() {
-            if nowPlaying != String(pair[0]) {
-                DDLyricalPlayer.shared.loadSong(forResource: String(pair[0]), withExtension: String(pair[1]), andTimings: timings)
+        lyric = DDLyricStore.shared.getLyric(by: self.uuid!)
+        let pair = lyric!.filename!.split(separator: ".")
+        assert(pair.count == 2)
+        
+        buildModelFromLyric()
+        
+        if let playingUUID = DDLyricalPlayer.shared.nowPlayingUUID() {
+            if playingUUID != uuid {
+                DDLyricalPlayer.shared.loadSong(forResource: String(pair[0]), withExtension: String(pair[1]), andTimings: timings, andUUID: uuid!)
             }
         } else {
-            DDLyricalPlayer.shared.loadSong(forResource: String(pair[0]), withExtension: String(pair[1]), andTimings: timings)
+            DDLyricalPlayer.shared.loadSong(forResource: String(pair[0]), withExtension: String(pair[1]), andTimings: timings, andUUID: uuid!)
         }
         
         do {
@@ -276,8 +279,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         
     }
     
-    private func getLyric() {
-        lyric = DDLyricStore.shared.getLyric(by: self.uuid!)
+    private func buildModelFromLyric() {
         
         var lines = Array<DDLine>()
         var timings = Array<Double>()

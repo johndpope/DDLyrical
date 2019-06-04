@@ -55,7 +55,6 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let playerVC = DDPlayerViewController()
-        playerVC.filename = self.songs[indexPath.row].filename!
         playerVC.uuid = self.songs[indexPath.row].uuid
         self.navigationController?.pushViewController(playerVC, animated: true)
     }
@@ -70,9 +69,17 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    @objc func showPlaying() {
+        if DDLyricalPlayer.shared.nowPlayingUUID() != nil { self.navigationController?.pushViewController(DDPlayerViewController(), animated: true)
+        }
+    }
+    
     private func buildUI() {
         let uploadButtonItem = UIBarButtonItem(title: "UPLOAD", style: .plain, target: self, action: #selector(upload))
         self.navigationItem.rightBarButtonItem = uploadButtonItem
+        
+        let nowPlayingButtonItem = UIBarButtonItem(title: "NOW", style: .plain, target: self, action: #selector(showPlaying))
+        self.navigationItem.leftBarButtonItem = nowPlayingButtonItem
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in

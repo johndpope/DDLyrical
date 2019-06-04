@@ -28,7 +28,7 @@ class DDLyricalPlayer: NSObject, AVAudioPlayerDelegate {
     private var timer: Timer?
     private var timings: Array<Double> = Array<Double>()
     private var tempTimingIndex: Int = 0
-    private var playingResource = ""
+    private var playingUUID: UUID?
     
     private override init() {
         
@@ -42,7 +42,7 @@ class DDLyricalPlayer: NSObject, AVAudioPlayerDelegate {
         }
     }
     
-    func loadSong(forResource filename: String, withExtension ext: String, andTimings timings: Array<Double>) {
+    func loadSong(forResource filename: String, withExtension ext: String, andTimings timings: Array<Double>, andUUID uuid: UUID) {
         self.timings = timings
 
         let url = formURL(forResource: filename, withExtension: ext)
@@ -52,7 +52,7 @@ class DDLyricalPlayer: NSObject, AVAudioPlayerDelegate {
             audioPlayer?.delegate = self
             audioPlayer?.enableRate = true
             
-            playingResource = filename
+            playingUUID = uuid
         } catch {
             audioPlayer = nil
         }
@@ -75,9 +75,9 @@ class DDLyricalPlayer: NSObject, AVAudioPlayerDelegate {
         }
     }
     
-    func nowPlaying() -> String? {
+    func nowPlayingUUID() -> UUID? {
         if audioPlayer != nil && audioPlayer!.isPlaying == true {
-            return playingResource
+            return playingUUID
         }
         return nil
     }
