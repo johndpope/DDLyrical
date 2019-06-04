@@ -13,6 +13,12 @@ class DDWebServer: NSObject {
     
     static let shared = DDWebServer()
     
+    weak var delegate: GCDWebUploaderDelegate? {
+        didSet {
+            _webUploader?.delegate = delegate
+        }
+    }
+    
     private var _webUploader: GCDWebUploader?
     
     private override init() {

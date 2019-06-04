@@ -40,6 +40,8 @@ class DDUploadViewController: UIViewController, GCDWebUploaderDelegate {
             let serverUrl = DDWebServer.shared.initWebUploader()
             textLabel.text = String(describing: "Visit " + serverUrl)
             startOrStopButton.setTitle("Stop Server", for: .normal)
+            
+            DDWebServer.shared.delegate = self
         }
     }
     
