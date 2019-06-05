@@ -16,6 +16,8 @@ class DDUploadViewController: UIViewController, GCDWebUploaderDelegate {
     private let textLabel = UILabel()
     private let startOrStopButton = UIButton()
     
+    lazy private var uploadedMediaFiles = Array<String>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,6 +30,11 @@ class DDUploadViewController: UIViewController, GCDWebUploaderDelegate {
         DDWebServer.shared.stop()
         self.dismiss(animated: true) {
             //
+            weak var weakSelf = self
+            DispatchQueue.global().async {
+                DDLyricStore.shared.createMediaFiles(weakSelf!.uploadedMediaFiles)
+//                parseLRC()
+            }
         }
     }
     
@@ -95,6 +102,9 @@ class DDUploadViewController: UIViewController, GCDWebUploaderDelegate {
     
     func webUploader(_ uploader: GCDWebUploader, didUploadFileAtPath path: String) {
         print("didUploadFileAtPath: \(path)")
+        if let filename = path.components(separatedBy: "/").last {
+            uploadedMediaFiles.append(filename)
+        }
     }
     
     func webUploader(_ uploader: GCDWebUploader, didMoveItemFromPath fromPath: String, toPath: String) {

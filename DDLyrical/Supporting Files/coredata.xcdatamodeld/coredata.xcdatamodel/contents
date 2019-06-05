@@ -16,11 +16,19 @@
         <relationship name="segments" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DDSegment" inverseName="line" inverseEntity="DDSegment" syncable="YES"/>
     </entity>
     <entity name="DDLyric" representedClassName="DDLyric" syncable="YES">
-        <attribute name="artist" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="filename" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="songname" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="lines" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DDLine" inverseName="lyric" inverseEntity="DDLine" syncable="YES"/>
+        <relationship name="media" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DDMedia" inverseName="lyric" inverseEntity="DDMedia" syncable="YES"/>
+    </entity>
+    <entity name="DDMedia" representedClassName="DDMedia" syncable="YES">
+        <attribute name="artist" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="composer" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="filename" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lyricist" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="lyric" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DDLyric" inverseName="media" inverseEntity="DDLyric" syncable="YES"/>
     </entity>
     <entity name="DDSegment" representedClassName="DDSegment" syncable="YES">
         <attribute name="segment" optional="YES" attributeType="String" syncable="YES"/>
@@ -29,7 +37,8 @@
     <elements>
         <element name="DDAnnotation" positionX="-36" positionY="27" width="128" height="120"/>
         <element name="DDLine" positionX="-54" positionY="0" width="128" height="135"/>
-        <element name="DDLyric" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="DDLyric" positionX="-63" positionY="-18" width="128" height="105"/>
         <element name="DDSegment" positionX="-18" positionY="54" width="128" height="75"/>
+        <element name="DDMedia" positionX="-45" positionY="54" width="128" height="150"/>
     </elements>
 </model>

@@ -17,7 +17,7 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
     private let CellIdentifier = "LyricalSongCellIdentifier"
     
     private let tableView = UITableView()
-    private var songs = Array<DDLyric>()
+    private var songs = Array<DDMedia>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +49,7 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! DDSongItemTableViewCell
-        cell.titleLabel.text = songs[indexPath.row].filename
+        cell.titleLabel.text = songs[indexPath.row].title
         return cell
     }
     
@@ -112,7 +112,7 @@ class DDSongsViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     private func load() {
-        self.songs = DDLyricStore.shared.getLyrics()
+        self.songs = DDLyricStore.shared.getAllMediaFiles()
     }
     
 }

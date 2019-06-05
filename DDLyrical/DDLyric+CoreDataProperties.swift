@@ -2,7 +2,7 @@
 //  DDLyric+CoreDataProperties.swift
 //  
 //
-//  Created by Gu Jun on 2019/5/28.
+//  Created by Gu Jun on 2019/6/5.
 //
 //
 
@@ -18,9 +18,8 @@ extension DDLyric {
 
     @NSManaged public var filename: String?
     @NSManaged public var uuid: UUID?
-    @NSManaged public var songname: String?
-    @NSManaged public var artist: String?
     @NSManaged public var lines: NSOrderedSet?
+    @NSManaged public var media: DDMedia?
 
 }
 

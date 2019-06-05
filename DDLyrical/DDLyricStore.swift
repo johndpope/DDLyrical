@@ -65,6 +65,30 @@ class DDLyricStore: NSObject {
         }
     }
     
+    func createMediaFiles(_ files: Array<String>) {
+        let context = persistentContainer.viewContext
+        for file in files {
+            let entity = NSEntityDescription.insertNewObject(forEntityName: "DDMedia", into: context) as! DDMedia
+            entity.title = file
+            entity.uuid = UUID()
+            entity.filename = file
+        }
+        
+        saveContext()
+    }
+    
+    func getAllMediaFiles() -> Array<DDMedia> {
+        let context = persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<DDMedia>(entityName: "DDMedia")
+        
+        do {
+            let fetchResult = try context.fetch(fetchRequest)
+            return fetchResult
+        } catch {
+            fatalError("fetch error: getLyrics")
+        }
+    }
+    
     func getLyrics() -> Array<DDLyric> {
         let context = persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<DDLyric>(entityName: "DDLyric")
