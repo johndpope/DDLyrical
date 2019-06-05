@@ -32,7 +32,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     private var timings = Array<Double>()
     private var loopMode: DDLoopMode = .loop
     private var speedRate = 1.0
-    private var lyric: DDLyric?
+    private var file: DDMedia?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,18 +56,20 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         DDLyricalPlayer.shared.delegate = self
         DDLyricalPlayer.shared.setLoopMode(loopMode: .loop)
         
-        lyric = DDLyricStore.shared.getLyric(by: self.uuid!)
-        let pair = lyric!.filename!.split(separator: ".")
-        assert(pair.count == 2)
-        
-        buildModelFromLyric()
+        file = DDLyricStore.shared.getMediaFile(by: self.uuid!)
+        if let lyric = file?.lyric {
+            let pair = lyric.filename!.split(separator: ".")
+            assert(pair.count == 2)
+            
+            buildModelFromLyric()
+        }
         
         if let playingUUID = DDLyricalPlayer.shared.nowPlayingUUID() {
             if playingUUID != uuid {
-                DDLyricalPlayer.shared.loadSong(forResource: String(pair[0]), withExtension: String(pair[1]), andTimings: timings, andUUID: uuid!)
+                DDLyricalPlayer.shared.loadSong(forResource: file!.filename!, andTimings: timings, andUUID: uuid!)
             }
         } else {
-            DDLyricalPlayer.shared.loadSong(forResource: String(pair[0]), withExtension: String(pair[1]), andTimings: timings, andUUID: uuid!)
+            DDLyricalPlayer.shared.loadSong(forResource: file!.filename!, andTimings: timings, andUUID: uuid!)
         }
         
         do {
@@ -283,7 +285,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         
         var lines = Array<DDLine>()
         var timings = Array<Double>()
-        for item in lyric!.lines! {
+        for item in file!.lyric!.lines! {
             let itemLine = item as! DDLine
             lines.append(itemLine)
             timings.append(itemLine.time)
@@ -294,7 +296,7 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
     
     private func setPlayingInfo() {
         var nowPlayingInfo = [String:Any]()
-        nowPlayingInfo[MPMediaItemPropertyTitle] = lyric?.filename ?? "title"
+        nowPlayingInfo[MPMediaItemPropertyTitle] = file?.lyric?.filename ?? "title"
         nowPlayingInfo[MPMediaItemPropertyArtist] = "artist"
         nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = 300
         let image = UIImage(named: "artwork")!

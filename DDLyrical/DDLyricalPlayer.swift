@@ -42,10 +42,14 @@ class DDLyricalPlayer: NSObject, AVAudioPlayerDelegate {
         }
     }
     
-    func loadSong(forResource filename: String, withExtension ext: String, andTimings timings: Array<Double>, andUUID uuid: UUID) {
+    func loadSong(forResource filename: String, andTimings timings: Array<Double>, andUUID uuid: UUID) {
+        
+        let pair = filename.components(separatedBy: ".")
+        assert(pair.count == 2)
+        
         self.timings = timings
 
-        let url = formURL(forResource: filename, withExtension: ext)
+        let url = formURL(forResource: pair[0], withExtension: pair[1])
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer?.prepareToPlay()

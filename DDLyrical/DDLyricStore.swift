@@ -89,6 +89,24 @@ class DDLyricStore: NSObject {
         }
     }
     
+    func getMediaFile(by uuid: UUID) -> DDMedia? {
+        let context = persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<DDMedia>(entityName: "DDMedia")
+        fetchRequest.fetchOffset = 0
+        fetchRequest.fetchLimit = 1
+        fetchRequest.predicate = NSPredicate(format: "uuid == %@", uuid as CVarArg)
+        
+        do {
+            let fetchResult = try context.fetch(fetchRequest)
+            if fetchResult.count > 1 {
+                fatalError("duplicate file uuid.")
+            }
+            return fetchResult.first
+        } catch {
+            fatalError("fetch error")
+        }
+    }
+    
     func getLyrics() -> Array<DDLyric> {
         let context = persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<DDLyric>(entityName: "DDLyric")
