@@ -35,14 +35,20 @@ class DDUploadViewController: UIViewController, GCDWebUploaderDelegate {
             if self.uploadedMediaFiles.count > 0 {
                 weak var weakSelf = self
                 DispatchQueue.global().async {
-                    DDLyricStore.shared.createMediaFiles(weakSelf!.uploadedMediaFiles)
-                    
-                    let manager = FileManager.default
-                    let documentDirectory = manager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                    let path = documentDirectory.absoluteString + "/" + "file" + ".lrc"
-                    if manager.fileExists(atPath: path) {
-                        weakSelf?.parseLrcFor(resource: "filename")
+                    var structuredFiles = Array<DDStructuredUploadedFile>()
+                    for item in weakSelf!.uploadedMediaFiles {
+                        
+                        let manager = FileManager.default
+                        let documentDirectory = manager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                        let path = documentDirectory.absoluteString + "/" + "file" + ".lrc"
+                        var lyricsLines: Array<(time: Double, original: String, translation: String)>?
+                        if manager.fileExists(atPath: path) {
+                            lyricsLines = weakSelf?.parseLrcFor(resource: "filename")
+                        }
+                        let structuredFile = DDStructuredUploadedFile(filename: item, lyricist: nil, composer: nil, lyrics: lyricsLines)
+                        structuredFiles.append(structuredFile)
                     }
+                    DDLyricStore.shared.createMediaFiles(structuredFiles)
                 }
             }
         }
@@ -137,7 +143,8 @@ class DDUploadViewController: UIViewController, GCDWebUploaderDelegate {
     
     // MARK: Pod SpotlightLyric
     
-    private func parseLrcFor(resource: String) {
+    private func parseLrcFor(resource: String) -> Array<(time: Double, original: String, translation: String)>? {
+        
         do {
             let url = Bundle.main.url(forResource: resource, withExtension: "lrc")
             let lyricsString = try String.init(contentsOf: url!)
@@ -147,7 +154,6 @@ class DDUploadViewController: UIViewController, GCDWebUploaderDelegate {
             //            print(parser.header.title)
             //            print(parser.header.author)
             //            print(parser.header.album)
-            
             var lines = Array<(time: Double, original: String, translation: String)>()
             
             for lyric in parser.lyrics {
@@ -173,9 +179,11 @@ class DDUploadViewController: UIViewController, GCDWebUploaderDelegate {
                 //                timings.append(lyric.time)
             }
             
-            let _ = DDLyricStore.shared.saveLyric(withFilename: "3098401105.mp3", lines: lines)
+//            let _ = DDLyricStore.shared.saveLyric(withFilename: "3098401105.mp3", lines: lines)
+            return lines
         } catch {
             print("ERROR: parse lrc")
         }
+        return nil
     }
 }

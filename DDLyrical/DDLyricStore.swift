@@ -10,13 +10,19 @@ import UIKit
 import CoreData
 import SpotlightLyrics
 
+struct DDStructuredUploadedFile {
+    var filename: String
+    var lyricist: String?
+    var composer: String?
+    var lyrics: Array<(time: Double, original: String, translation: String)>?
+}
+
 class DDLyricStore: NSObject {
     
     static let shared = DDLyricStore()
     
     private override init() {
         super.init()
-//        testParser()
     }
     
     // MARK: - Core Data stack
@@ -65,13 +71,13 @@ class DDLyricStore: NSObject {
         }
     }
     
-    func createMediaFiles(_ files: Array<String>) {
+    func createMediaFiles(_ files: Array<DDStructuredUploadedFile>) {
         let context = persistentContainer.viewContext
         for file in files {
             let entity = NSEntityDescription.insertNewObject(forEntityName: "DDMedia", into: context) as! DDMedia
-            entity.title = file
+            entity.title = file.filename
             entity.uuid = UUID()
-            entity.filename = file
+            entity.filename = file.filename
         }
         
         saveContext()
