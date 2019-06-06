@@ -300,8 +300,9 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         nowPlayingInfo[MPMediaItemPropertyArtist] = "artist"
         nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = 300
         let image = UIImage(named: "artwork")!
-        nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: image)
-//        MPMediaItemArtwork(boundsSize: <#T##CGSize#>, requestHandler: <#T##(CGSize) -> UIImage#>)
+        nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: CGSize(width: 100, height: 100), requestHandler: { (CGSize) -> UIImage in
+            return image
+        })
 
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
