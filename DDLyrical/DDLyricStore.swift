@@ -181,49 +181,6 @@ class DDLyricStore: NSObject {
     
     
     
-    private func testParser() {
-        do {
-            let url = Bundle.main.url(forResource: "クリスマスソング", withExtension: "lrc")
-            let lyricsString = try String.init(contentsOf: url!)
-            let parser = LyricsParser(lyrics: lyricsString)
-            
-            // Now you get everything about the lyrics
-            //            print(parser.header.title)
-            //            print(parser.header.author)
-            //            print(parser.header.album)
-            
-            var lines = Array<(time: Double, original: String, translation: String)>()
-            
-            
-            for lyric in parser.lyrics {
-                let pair = lyric.text.split(separator: " ")
-                var original = ""
-                var translation = ""
-                if (pair.count == 2) {
-                    original = String(pair[0])
-                    translation = String(pair[1])
-                } else if (pair.count == 3) {
-                    original = String(pair[0]+pair[1])
-                    translation = String(pair[2])
-                } else if (pair.count == 4) {
-                    original = String(pair[0]+pair[1])
-                    translation = String(pair[2]+pair[3])
-                } else {
-                    print("Unexpected")
-                    print(lyric.text)
-                }
-                lines.append((lyric.time, original, translation))
-                //                print(lyric.text)
-                //                print(lyric.time)
-//                timings.append(lyric.time)
-            }
-            
-            let _ = saveLyric(withFilename: "3098401105.mp3", lines: lines)
-        } catch {
-            print("ERROR: parse lrc")
-        }
-    }
-    
     
     // MARK: Parse LRC
     private func test_parse() {
