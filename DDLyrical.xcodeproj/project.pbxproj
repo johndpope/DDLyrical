@@ -127,16 +127,7 @@
 				6A0841FE226C92C400D5E75A /* DDLyricLine.swift */,
 				6A084200226C9E0000D5E75A /* DDLyricAnnotation.swift */,
 				6A0841F6226C78DC00D5E75A /* Info.plist */,
-				BE41715622A7ABEB00F1E094 /* DDLine+CoreDataClass.swift */,
-				BE41715A22A7ABEB00F1E094 /* DDLine+CoreDataProperties.swift */,
-				BE41715922A7ABEB00F1E094 /* DDAnnotation+CoreDataClass.swift */,
-				BE41715422A7ABEB00F1E094 /* DDAnnotation+CoreDataProperties.swift */,
-				BE41715522A7ABEB00F1E094 /* DDLyric+CoreDataClass.swift */,
-				BE41715822A7ABEB00F1E094 /* DDLyric+CoreDataProperties.swift */,
-				BE41715722A7ABEB00F1E094 /* DDSegment+CoreDataClass.swift */,
-				BE41715322A7ABEA00F1E094 /* DDSegment+CoreDataProperties.swift */,
-				6A0D0A1E22A81DF9006B7FD2 /* DDMedia+CoreDataClass.swift */,
-				6A0D0A1F22A81DF9006B7FD2 /* DDMedia+CoreDataProperties.swift */,
+				6A0D0A2322AC09C8006B7FD2 /* Core Data */,
 				6A084204226CAD4900D5E75A /* Supporting Files */,
 				6AD974EE228C62C200F85F5B /* クリスマスソング.mp3 */,
 				6A08420D2270C1D700D5E75A /* クリスマスソング.lrc */,
@@ -152,6 +143,23 @@
 				6AD974CD22807F4600F85F5B /* coredata.xcdatamodeld */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6A0D0A2322AC09C8006B7FD2 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				BE41715622A7ABEB00F1E094 /* DDLine+CoreDataClass.swift */,
+				BE41715A22A7ABEB00F1E094 /* DDLine+CoreDataProperties.swift */,
+				BE41715922A7ABEB00F1E094 /* DDAnnotation+CoreDataClass.swift */,
+				BE41715422A7ABEB00F1E094 /* DDAnnotation+CoreDataProperties.swift */,
+				BE41715522A7ABEB00F1E094 /* DDLyric+CoreDataClass.swift */,
+				BE41715822A7ABEB00F1E094 /* DDLyric+CoreDataProperties.swift */,
+				BE41715722A7ABEB00F1E094 /* DDSegment+CoreDataClass.swift */,
+				BE41715322A7ABEA00F1E094 /* DDSegment+CoreDataProperties.swift */,
+				6A0D0A1E22A81DF9006B7FD2 /* DDMedia+CoreDataClass.swift */,
+				6A0D0A1F22A81DF9006B7FD2 /* DDMedia+CoreDataProperties.swift */,
+			);
+			name = "Core Data";
 			sourceTree = "<group>";
 		};
 		B835EF0CC56A6E94017B5FC0 /* Frameworks */ = {
