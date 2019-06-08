@@ -71,6 +71,8 @@ class DDLyricStore: NSObject {
         }
     }
     
+    // MARK: Media Files
+    
     func createMediaFiles(_ files: Array<DDStructuredUploadedFile>) {
         let context = persistentContainer.viewContext
         for file in files {
@@ -78,6 +80,45 @@ class DDLyricStore: NSObject {
             entity.title = file.filename
             entity.uuid = UUID()
             entity.filename = file.filename
+            
+            if let lyrics = file.lyrics {
+                let lyric = NSEntityDescription.insertNewObject(forEntityName: "DDLyric", into: context) as! DDLyric
+                lyric.uuid = UUID()
+                var lineArray = Array<DDLine>()
+                for item in lyrics {
+                    var segmentArray = Array<DDSegment>()
+                    var annotationArray = Array<DDAnnotation>()
+                    
+                    let line = NSEntityDescription.insertNewObject(forEntityName: "DDLine", into: context) as! DDLine
+                    line.time = item.time
+                    line.original = item.original
+                    line.translation = item.translation
+                    
+                    let (segments, annotations) = self.parse(line: item.original)
+                    for segment in segments {
+                        let segmentObj = NSEntityDescription.insertNewObject(forEntityName: "DDSegment", into: context) as! DDSegment
+                        segmentObj.segment = segment
+                        segmentArray.append(segmentObj)
+                    }
+                    for annotation in annotations {
+                        let annotationObj = NSEntityDescription.insertNewObject(forEntityName: "DDAnnotation", into: context) as! DDAnnotation
+                        annotationObj.begin = Int16(annotation.start)
+                        annotationObj.end = Int16(annotation.end)
+                        annotationObj.segmentIndex = Int16(annotation.segmentIndex)
+                        annotationObj.text = annotation.furigana
+                        annotationArray.append(annotationObj)
+                    }
+                    
+                    lineArray.append(line)
+                    line.segments = NSOrderedSet(array: segmentArray)
+                    line.annotations = NSSet(array: annotationArray)
+                }
+                lyric.lines = NSOrderedSet(array: lineArray)
+                entity.lyric = lyric
+                print("createMediaFiles with Lrc")
+            } else {
+                print("createMediaFiles without Lrc")
+            }
         }
         
         saveContext()
@@ -112,6 +153,8 @@ class DDLyricStore: NSObject {
             fatalError("fetch error")
         }
     }
+    
+    // MARK: Lyrics
     
     func getLyrics() -> Array<DDLyric> {
         let context = persistentContainer.viewContext
@@ -185,10 +228,8 @@ class DDLyricStore: NSObject {
         return true
     }
     
-    
-    
-    
     // MARK: Parse LRC
+    
     private func test_parse() {
         let (segments, annotations) = parse(line: "どこかで鐘(かね)が鳴って")
         print(segments)

@@ -33,17 +33,22 @@ class DDUploadViewController: UIViewController, GCDWebUploaderDelegate {
         self.dismiss(animated: true) {
             //
             if self.uploadedMediaFiles.count > 0 {
-                weak var weakSelf = self
                 DispatchQueue.global().async {
+                    weak var weakSelf = self
                     var structuredFiles = Array<DDStructuredUploadedFile>()
                     for item in weakSelf!.uploadedMediaFiles {
+                        if item.suffix(4) != ".mp3" {
+                            fatalError("media file should have an ext of .mp3")
+                        }
+                        let filenameWithoutExt = item.prefix(item.count - 4)
                         
                         let manager = FileManager.default
                         let documentDirectory = manager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                        let path = documentDirectory.absoluteString + "/" + "file" + ".lrc"
+                        // do NOT use "absoluteString", which includes "file://" prefix
+                        let pathOfLrc = documentDirectory.path + "/" + filenameWithoutExt + ".lrc"
                         var lyricsLines: Array<(time: Double, original: String, translation: String)>?
-                        if manager.fileExists(atPath: path) {
-                            lyricsLines = weakSelf?.parseLrcFor(resource: "filename")
+                        if manager.fileExists(atPath: pathOfLrc) {
+                            lyricsLines = weakSelf?.parseLrcFor(path: pathOfLrc)
                         }
                         let structuredFile = DDStructuredUploadedFile(filename: item, lyricist: nil, composer: nil, lyrics: lyricsLines)
                         structuredFiles.append(structuredFile)
@@ -143,12 +148,15 @@ class DDUploadViewController: UIViewController, GCDWebUploaderDelegate {
     
     // MARK: Pod SpotlightLyric
     
-    private func parseLrcFor(resource: String) -> Array<(time: Double, original: String, translation: String)>? {
+    private func parseLrcFor(path: String) -> Array<(time: Double, original: String, translation: String)>? {
         
         do {
-            let url = Bundle.main.url(forResource: resource, withExtension: "lrc")
-            let lyricsString = try String.init(contentsOf: url!)
-            let parser = LyricsParser(lyrics: lyricsString)
+//            let url = Bundle.main.url(forResource: resource, withExtension: "lrc")
+//            let lyricsString = try String.init(contentsOf: url)
+            
+            let url = URL(fileURLWithPath: path)
+            let lyricsContent = try String(contentsOf: url)
+            let parser = LyricsParser(lyrics: lyricsContent)
             
             // Now you get everything about the lyrics
             //            print(parser.header.title)

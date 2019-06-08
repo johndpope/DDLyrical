@@ -57,30 +57,28 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         DDLyricalPlayer.shared.setLoopMode(loopMode: .loop)
         
         file = DDLyricStore.shared.getMediaFile(by: self.uuid!)
-        if let lyric = file?.lyric {
-            let pair = lyric.filename!.split(separator: ".")
-            assert(pair.count == 2)
-            
+        if let filename = file?.filename {
             buildModelFromLyric()
-        }
-        
-        if let playingUUID = DDLyricalPlayer.shared.nowPlayingUUID() {
-            if playingUUID != uuid {
-                DDLyricalPlayer.shared.loadSong(forResource: file!.filename!, andTimings: timings, andUUID: uuid!)
-            }
-        } else {
-            DDLyricalPlayer.shared.loadSong(forResource: file!.filename!, andTimings: timings, andUUID: uuid!)
-        }
-        
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playback)
-        } catch {
             
+            if let playingUUID = DDLyricalPlayer.shared.nowPlayingUUID() {
+                if playingUUID != uuid {
+                    DDLyricalPlayer.shared.loadSong(forResource: filename, andTimings: timings, andUUID: uuid!)
+                }
+            } else {
+                DDLyricalPlayer.shared.loadSong(forResource: filename, andTimings: timings, andUUID: uuid!)
+            }
+            
+            do {
+                try AVAudioSession.sharedInstance().setCategory(.playback)
+            } catch {
+                
+            }
+            
+            setPlayingInfo()
+            
+            id3v2()
         }
         
-        setPlayingInfo()
-        
-        id3v2()
     }
     
     override func viewWillAppear(_ animated: Bool) {
