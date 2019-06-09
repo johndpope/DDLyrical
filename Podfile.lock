@@ -1,0 +1,26 @@
+PODS:
+  - GCDWebServer/Core (3.5.2)
+  - GCDWebServer/WebUploader (3.5.2):
+    - GCDWebServer/Core
+  - SnapKit (4.0.1)
+  - SpotlightLyrics (0.1.4)
+
+DEPENDENCIES:
+  - GCDWebServer/WebUploader (~> 3.0)
+  - SnapKit (~> 4.0.0)
+  - SpotlightLyrics
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - GCDWebServer
+    - SnapKit
+    - SpotlightLyrics
+
+SPEC CHECKSUMS:
+  GCDWebServer: ead88cd14596dd4eae4f5830b8877c87c8728990
+  SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
+  SpotlightLyrics: 3ddc5547663a1afe8b064cfc2934d471767fa875
+
+PODFILE CHECKSUM: 86992bae9cee9404be43e3567a160dd6859986d4
+
+COCOAPODS: 1.6.0
