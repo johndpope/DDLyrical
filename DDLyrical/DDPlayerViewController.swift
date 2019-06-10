@@ -57,15 +57,15 @@ class DDPlayerViewController: UIViewController, UITableViewDataSource, UITableVi
         DDLyricalPlayer.shared.setLoopMode(loopMode: .loop)
         
         file = DDLyricStore.shared.getMediaFile(by: self.uuid!)
-        if let filename = file?.filename {
+        if let _ = file?.lyric {
             buildModelFromLyric()
             
             if let playingUUID = DDLyricalPlayer.shared.nowPlayingUUID() {
                 if playingUUID != uuid {
-                    DDLyricalPlayer.shared.loadSong(forResource: filename, andTimings: timings, andUUID: uuid!)
+                    DDLyricalPlayer.shared.loadSong(forResource: file!.filename!, andTimings: timings, andUUID: uuid!)
                 }
             } else {
-                DDLyricalPlayer.shared.loadSong(forResource: filename, andTimings: timings, andUUID: uuid!)
+                DDLyricalPlayer.shared.loadSong(forResource: file!.filename!, andTimings: timings, andUUID: uuid!)
             }
             
             do {
